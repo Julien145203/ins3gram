@@ -1,68 +1,62 @@
-# CodeIgniter 4 Application Starter
+# Utilisation du projet ins3gram
 
-## What is CodeIgniter?
+![image](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white
+)
+![image](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![image](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white
+)
+![image](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
+![image](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![image](https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white) ![image](http://img.shields.io/badge/-PHPStorm-181717?style=for-the-badge&logo=phpstorm&logoColor=white)
+![image](https://img.shields.io/badge/Codeigniter-EF4223?style=for-the-badge&logo=codeigniter&logoColor=white)
+![image](https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=Composer&logoColor=white)
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Informations
+Ceci est un projet fait sous [CodeIgniter 4](https://www.codeigniter.com/user_guide/index.html).
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Création de votre projet
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+1. Créer sur GitHub.com dans vos répertoires privés un repo pour votre projet.
+2. Cloner ce repo sur votre ordinateur pour pouvoir travailler dessus.
+3. Cloner ensuite ce projet. Passez par Github Desktop et les boutons présent en haut sur Github.com
+4. Une fois le dossier cloné, ouvrez le et supprimer le dossier ```.git``` et ```.idea``` s'ils sont présents.
+5. Ouvrez le dossier de votre projet et celui de ce projet, couper/coller tout le contenu de ce projet dans le votre.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### Initialiser le projet
 
-## Installation & updates
+Ouvrez votre projet avec phpstorm.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Ouvrez un terminal (`Alt + F12`).
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Puis utiliser la commande suivante :
+```
+composer install
+```
+(vous pouvez utiliser composer update aussi)
 
-## Setup
+```
+docker-compose up -d
+```
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Puis
 
-## Important Change with index.php
+```
+php spark migrate
+```
+Ensuite vous pouvez vérifier le bon fonctionnement à l'aide de la commande suivante :
+```
+php spark serve
+```
+Qui va ouvrir créer un serveur de développement local à l'adresse http://localhost:8080 (attention ce n'est pas
+https ! )
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+Vous pouvez vous connecter avec le login et le mdp suivant : ```admin@admin.fr / admin```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Vous avez aussi un accés à un phpmyadmin  de développement local à l'adresse http://localhost:8081 (attention ce
+n'est pas https ! ).
 
-## Repository Management
+Si le phpmyadmin ne fonctionne pas il faut verifier que docker est bien lancé et vos container
+aussi.
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 8.1 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Pour vous connecter au phpmyadmin il faut utiliser ```root / root```
