@@ -6,23 +6,19 @@ use CodeIgniter\Model;
 
 class TagRecipeModel extends Model
 {
-    protected $table            = 'tagrecipe';
+    protected $table            = 'tag_recipe';
     protected $primaryKey       = null;
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_recipe', 'id_tag'];
-
-    protected $useTimestamps = false;
-
-    // Validation
+    protected $allowedFields    = ['id_recipe','id_tag'];
     protected $validationRules = [
-
         'id_recipe' => 'required|integer',
         'id_tag'    => 'required|integer',
     ];
-    protected $validationMessages   = [
+
+    protected $validationMessages = [
         'id_recipe' => [
             'required' => 'La recette est obligatoire.',
             'integer'  => 'L’ID de la recette doit être un nombre.',
@@ -32,4 +28,5 @@ class TagRecipeModel extends Model
             'integer'  => 'L’ID du tag doit être un nombre.',
         ],
     ];
+
 }

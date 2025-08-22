@@ -10,11 +10,9 @@ class UserModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['email', 'password', 'username',
-        'first_name', 'last_name', 'birthdate', 'id_permission'];
-
+    protected $allowedFields    = ['email','password','username','first_name','last_name', 'birthdate', 'id_permission'];
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
@@ -22,7 +20,6 @@ class UserModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
-    // Validation
     protected $validationRules = [
         'email'       => 'required|valid_email|max_length[255]|is_unique[user.email,id,{id}]',
         'password'    => 'required|min_length[8]|max_length[255]',
@@ -32,7 +29,6 @@ class UserModel extends Model
         'birthdate'   => 'required|valid_date',
         'id_permission' => 'required|integer',
     ];
-
     protected $validationMessages = [
         'email' => [
             'required'   => 'L’email est obligatoire.',

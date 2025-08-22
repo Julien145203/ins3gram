@@ -14,13 +14,11 @@ class TagModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['name'];
 
-    protected $useTimestamps = false;
-
-    // Validation
     protected $validationRules = [
         'name' => 'required|max_length[255]|is_unique[tag.name,id,{id}]',
     ];
-    protected $validationMessages   = [
+
+    protected $validationMessages = [
         'name' => [
             'required'   => 'Le nom du tag est obligatoire.',
             'max_length' => 'Le nom du tag ne peut pas dépasser 255 caractères.',

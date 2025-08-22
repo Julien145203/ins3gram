@@ -12,9 +12,7 @@ class MediaModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_path', 'entity_id', 'entity_type',
-        'title', 'alt'];
-
+    protected $allowedFields    = ['file_path','entity_id', 'entity_type','title','alt'];
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
@@ -22,7 +20,6 @@ class MediaModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
-    // Validation
     protected $validationRules = [
         'file_path'   => 'required|string|is_unique[media.file_path,id,{id}]',
         'entity_id'   => 'required|integer',
@@ -30,7 +27,8 @@ class MediaModel extends Model
         'title'       => 'permit_empty|max_length[255]',
         'alt'         => 'permit_empty|max_length[255]',
     ];
-    protected $validationMessages   = [
+
+    protected $validationMessages = [
         'file_path' => [
             'required'  => 'Le chemin du fichier est obligatoire.',
             'is_unique' => 'Ce fichier existe déjà.',

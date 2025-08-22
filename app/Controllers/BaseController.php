@@ -38,10 +38,45 @@ abstract class BaseController extends Controller
     protected $helpers = [];
 
     /**
-     * Be sure to declare properties for any property fetch you initialized.
-     * The creation of dynamic property is deprecated in PHP 8.2.
+     * Liste des messages à afficher à l'utilisateur.
+     * @var array
      */
-    // protected $session;
+    protected $messages = [];
+
+    /**
+     * Instance de session utilisée dans l'application.
+     * @var \CodeIgniter\Session\Session|null
+     */
+    protected $session;
+
+    /**
+     * Indique si la session doit démarrer automatiquement.
+     * @var bool
+     */
+    protected $start_session = true;
+
+    /**
+     * Titre de la page.
+     *
+     * @var string
+     */
+    protected $title = 'Home';
+
+    /**
+     * Préfixe ajouté automatiquement au titre de la page.
+     *
+     * @var string
+     */
+    protected $title_prefix = 'ins3gram';
+
+    /**
+     * Chemin de navigation pour la gestion des breadcrumbs.
+     *
+     * @var array
+     */
+    protected $breadcrumb = [];
+
+    protected $menu = 'accueil';
 
     /**
      * @return void
@@ -51,8 +86,117 @@ abstract class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
-        // Preload any models, libraries, etc, here.
+        if ($this->start_session) {
+            $this->session = session();
+            if (session()->has('messages')) {
+                $this->messages = session()->getFlashdata('messages');
+            }
+        }
+    }
 
-        // E.g.: $this->session = service('session');
+    public function view($vue = null, $datas = [], $admin = true)
+    {
+        $template_path = $admin ? "templates/admin/" : "templates/front/";
+        $flashData = session()->getFlashdata('data');
+        if ($flashData) {
+            $datas = array_merge($datas, $flashData);
+        }
+        $headData = [
+            'title' => sprintf('%s : %s', $this->title, $this->title_prefix),
+            'menus' => $this->loadMenu($admin),
+            'template_path' => $template_path,
+            'breadcrumb' => $this->breadcrumb,
+            'localmenu' => $this->menu,
+        ];
+        return
+            view($template_path . 'head', $headData)
+            . (($vue !== null) ? view($vue, $datas) : '')
+            . view($template_path . 'footer', ['messages' => $this->messages]);
+    }
+
+    protected function loadMenu($admin): array
+    {
+
+        $filename = APPPATH . "Config/";
+        $filename .= $admin ? "menu_admin.json" : "menu_front.json";
+
+        if (!file_exists($filename)) {
+            log_message('error', "Menu JSON file not found: $filename");
+            return [];
+        }
+
+        $json = file_get_contents($filename);
+        $menu = json_decode($json, true);
+
+        if (!is_array($menu)) {
+            log_message('error', "Invalid JSON in menu file: $filename");
+            return [];
+        }
+
+        return $menu;
+    }
+
+    public function redirect(string $url, array $data = [])
+    {
+        // Ajout des messages à la session si présents
+        if (!empty($this->messages)) {
+            session()->setFlashdata('messages', $this->messages);
+        }
+
+        // Ajout des données supplémentaires à la session si présentes
+        if (!empty($data)) {
+            session()->setFlashdata('data', $data);
+        }
+
+        // Redirection avec la méthode CI4
+        return redirect()->to(base_url($url));
+    }
+
+    /**
+     * Ajoute un message de succès.
+     *
+     * @param string $txt Message à afficher.
+     * @return void
+     */
+    public function success($txt)
+    {
+        log_message('debug', $txt);
+        $this->messages[] = ['txt' => $txt, 'class' => 'alert-success', 'toast' => 'success'];
+    }
+
+    /**
+     * Ajoute un message informatif.
+     *
+     * @param string $txt Message à afficher.
+     * @return void
+     */
+    public function message($txt)
+    {
+        log_message('debug', $txt);
+        $this->messages[] = ['txt' => $txt, 'class' => 'alert-info', 'toast' => 'info'];
+    }
+
+    /**
+     * Ajoute un message d'avertissement.
+     *
+     * @param string $txt Message à afficher.
+     * @return void
+     */
+    public function warning($txt)
+    {
+        log_message('debug', $txt);
+        $this->messages[] = ['txt' => $txt, 'class' => 'alert-warning', 'toast' => 'warning'];
+    }
+
+    /**
+     * Ajoute un message d'erreur.
+     *
+     * @param string $txt Message à afficher.
+     * @return void
+     */
+    public function error($txt)
+    {
+        log_message('debug', $txt);
+        $this->messages[] = ['txt' => $txt, 'class' => 'alert-danger', 'toast' => 'error'];
     }
 }

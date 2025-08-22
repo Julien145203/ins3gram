@@ -12,7 +12,7 @@ class OpinionModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['comments', 'score', 'id_recipe', 'id_user'];
+    protected $allowedFields    = ['comments','score','id_recipe','id_user'];
 
     // Dates
     protected $useTimestamps = true;
@@ -21,14 +21,13 @@ class OpinionModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
-    // Validation
     protected $validationRules = [
-
         'comments'  => 'permit_empty|string',
         'score'     => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[5]',
         'id_recipe' => 'required|integer',
         'id_user'   => 'required|integer',
     ];
+
     protected $validationMessages = [
         'comments' => [
             'string' => 'Le commentaire doit être une chaîne de caractères.',
@@ -48,4 +47,6 @@ class OpinionModel extends Model
             'integer'  => 'L’ID de l’utilisateur doit être un nombre.',
         ],
     ];
+
+
 }

@@ -12,17 +12,14 @@ class StepModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['description', 'order', 'id_recipe'];
-
-    protected $useTimestamps = false;
-
-    // Validation
+    protected $allowedFields    = ['description', 'order','id_recipe'];
     protected $validationRules = [
         'description' => 'required|string|is_unique[step.description,id,{id}]',
         'order'       => 'required|integer',
         'id_recipe'   => 'required|integer',
     ];
-    protected $validationMessages   = [
+
+    protected $validationMessages = [
         'description' => [
             'required'  => 'La description est obligatoire.',
             'is_unique' => 'Cette étape existe déjà.',
@@ -36,5 +33,6 @@ class StepModel extends Model
             'integer'  => 'L’ID de la recette doit être un nombre.',
         ],
     ];
+
 
 }
