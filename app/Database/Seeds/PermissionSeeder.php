@@ -10,14 +10,14 @@ class PermissionSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Administrateur',
-                'slug' => 'administrateur',
+                'name'=>'Administrateur',
+                'slug'=>'administrateur',
             ],
             [
-                'name' => 'Utilisateur',
-                'slug' => 'utilisateur',
+                'name'=>'Utilisateur',
+                'slug'=>'utilisateur',
             ],
         ];
-        $this->db->table('user_permissions')->insertBatch($data);
+        $this->db->table('user_permission')->insertBatch($data);
     }
 }
