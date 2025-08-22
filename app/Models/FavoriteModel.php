@@ -6,21 +6,19 @@ use CodeIgniter\Model;
 
 class FavoriteModel extends Model
 {
-    protected $table = 'favorite';
-    protected $primaryKey = null;
+    protected $table            = 'favorite';
+    protected $primaryKey       = null;
     protected $useAutoIncrement = false;
-    protected $returnType = 'array';
-    protected $useSoftDeletes = false;
-    protected $allowedFields = ['id_user', 'id_recipe'];
+    protected $returnType       = 'array';
+    protected $useSoftDeletes   = false;
+    protected $allowedFields    = ['id_user','id_recipe'];
 
-    protected $useTimestamps = false;
-
-    // Validation
     protected $validationRules = [
         'id_recipe' => 'required|integer',
         'id_user'   => 'required|integer',
     ];
-    protected $validationMessages   = [
+
+    protected $validationMessages = [
         'id_recipe' => [
             'required' => 'La recette est obligatoire.',
             'integer'  => 'L’ID de la recette doit être un nombre.',

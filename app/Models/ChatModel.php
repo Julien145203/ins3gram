@@ -12,27 +12,25 @@ class ChatModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['content', 'id_sender', 'id_receiver'];
+    protected $allowedFields    = ['content','id_sender','id_receiver'];
 
-    // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
-// Validation
-    protected $validationRules =  [
+    protected $validationRules = [
         'content'    => 'required|string|max_length[255]',
         'id_sender'  => 'required|integer',
         'id_receiver'=> 'required|integer',
     ];
 
-    protected $validationMessages   = [
+    protected $validationMessages = [
         'content' => [
-        'required'   => 'Le message est obligatoire.',
-        'max_length' => 'Le message ne peut pas dépasser 255 caractères.',
-    ],
+            'required'   => 'Le message est obligatoire.',
+            'max_length' => 'Le message ne peut pas dépasser 255 caractères.',
+        ],
         'id_sender' => [
             'required' => 'L’expéditeur est obligatoire.',
             'integer'  => 'L’ID de l’expéditeur doit être un nombre.',
@@ -40,6 +38,7 @@ class ChatModel extends Model
         'id_receiver' => [
             'required' => 'Le destinataire est obligatoire.',
             'integer'  => 'L’ID du destinataire doit être un nombre.',
-        ],];
+        ],
+    ];
 
 }

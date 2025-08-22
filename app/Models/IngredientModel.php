@@ -12,18 +12,15 @@ class IngredientModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'description', 'id_brand', 'id_categ'];
-
-    protected $useTimestamps = false;
-
-    // Validation
+    protected $allowedFields    = ['name','description','id_brand','id_categ'];
     protected $validationRules = [
         'name'      => 'required|max_length[255]|is_unique[ingredient.name,id,{id}]',
         'description' => 'permit_empty|string',
         'id_categ'  => 'permit_empty|integer',
         'id_brand'  => 'permit_empty|integer',
     ];
-    protected $validationMessages   = [
+
+    protected $validationMessages = [
         'name' => [
             'required'   => 'Le nom de l’ingrédient est obligatoire.',
             'max_length' => 'Le nom de l’ingrédient ne peut pas dépasser 255 caractères.',
@@ -36,4 +33,5 @@ class IngredientModel extends Model
             'integer' => 'L’ID de marque doit être un nombre.',
         ],
     ];
+
 }
