@@ -1,0 +1,27 @@
+{
+  "accueil": {
+    "title": "Tableau de Bord",
+    "url": "/admin/dashboard",
+    "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
+    "class": "main-menu-accueil"
+  },
+  "administration": {
+    "title": "Administration",
+    "url": "/",
+    "require": "administrateur",
+    "icon": "<i class=\"nav-icon fas fa-gear\"></i>",
+    "class": "",
+    "subs": {
+      "user": {
+        "title": "Utilisateur",
+        "url": "/admin/user",
+        "icon": "<i class=\"nav-icon fas fa-users-gear\"></i>"
+      },
+      "user-permission": {
+        "title": "Rôle",
+        "url": "/admin/userpermission",
+        "icon": "<i class=\"nav-icon fas fa-user-gear\"></i>"
+      }
+    }
+  }
+}
