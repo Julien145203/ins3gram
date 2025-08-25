@@ -37,7 +37,7 @@
             <?php }} ?>
 
         <li class="nav-item mt-auto">
-            <a class="nav-link" href="<?= base_url('/sign-out'); ?>">
+            <a class="nav-link" href="<?= base_url('/auth/logout'); ?>">
                 <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Déconnexion</a>
         </li>
     </ul>

@@ -5,29 +5,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title><?= esc($meta_title) ?></title>
-    <meta name="description" content="<?= esc($meta_description) ?>">
-    <meta name="keywords" content="<?= esc($meta_keywords) ?>">
-    <meta name="robots" content="<?= esc($meta_robots) ?>">
-    <link rel="canonical" href="<?= esc($canonical_url) ?>">
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="<?= esc($meta_title) ?>">
-    <meta property="og:description" content="<?= esc($meta_description) ?>">
-    <meta property="og:image" content="<?= esc($meta_image) ?>">
-    <meta property="og:url" content="<?= esc($canonical_url) ?>">
-    <meta property="og:type" content="website">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?= esc($meta_title) ?>">
-    <meta name="twitter:description" content="<?= esc($meta_description) ?>">
-    <meta name="twitter:image" content="<?= esc($meta_image) ?>">
-
-    <!-- JSON-LD (Données structurées) -->
-    <script type="application/ld+json">
-      <?= $structured_data ?>
-    </script>
 
     <meta name="author" content="">
     <meta name="keyword" content="">
@@ -94,7 +71,7 @@
 <body>
 
 <?php if (isset($menus)) {
-    echo view($template_dir . 'header',['menus' => $menus]);  }  ?>
+    echo view($template_path . 'header',['menus' => $menus]);  }  ?>
 <?php if (isset($mea)) { ?>
     <img src="<?= base_url($mea) ?>" class="img-mea">
 <?php } else { ?>
