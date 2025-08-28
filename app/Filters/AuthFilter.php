@@ -39,6 +39,7 @@ class AuthFilter implements FilterInterface
 
         if ($lastActivity && (time() - $lastActivity) > $sessionTimeout) {
             log_message('info', "Session expired for user {$user->id}");
+            session()->destroy();
             $session->setFlashdata('error', 'Votre session a expiré. Veuillez vous reconnecter.');
             return redirect()->to('/sign-in');
         }
