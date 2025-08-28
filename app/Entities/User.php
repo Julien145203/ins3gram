@@ -26,7 +26,7 @@ class User extends Entity
         'username'      => 'string',
         'first_name'    => 'string',
         'last_name'     => 'string',
-        'birthdate'     => 'date',
+        'birthdate'     => 'datetime',
         'id_permission' => 'integer',
         'created_at'    => 'datetime',
         'updated_at'    => 'datetime',
@@ -34,7 +34,6 @@ class User extends Entity
     ];
 
     protected $hidden = ['password'];
-    protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
 
     public function getFullName():string

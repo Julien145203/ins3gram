@@ -8,7 +8,7 @@ class Auth extends BaseController
     {
         // Si déjà connecté, rediriger
         if (session()->get('user')) {
-            return redirect()->to('/dashboard');
+            return redirect()->to('/admin/dashboard');
         }
         helper('form');
         return $this->view('front/auth/sign_in', [], false);
