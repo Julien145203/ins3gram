@@ -19,7 +19,7 @@
       },
       "user-permission": {
         "title": "Rôle",
-        "url": "/admin/userpermission",
+        "url": "/admin/user-permission",
         "icon": "<i class=\"nav-icon fas fa-user-gear\"></i>"
       }
     }

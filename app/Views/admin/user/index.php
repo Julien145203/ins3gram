@@ -126,7 +126,7 @@
                                 title: 'Succès !',
                                 text: response.message,
                                 icon: 'success',
-                                timer: 2000,
+                                timer: 4000,
                                 showConfirmButton: false
                             });
 
