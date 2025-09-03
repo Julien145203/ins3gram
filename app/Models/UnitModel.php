@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class UnitModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'unit';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -24,4 +26,16 @@ class UnitModel extends Model
             'is_unique'  => 'Cette unité existe déjà.',
         ],
     ];
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => [
+                'name',
+                'id',
+            ],
+            'joins' => [],
+            'select' => '*',
+        ];
+    }
+
 }

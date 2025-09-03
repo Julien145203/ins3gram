@@ -30,4 +30,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('insert', 'Brand::insert');
         $routes->post('delete', 'Brand::delete');
     });
+    $routes->group('unit', function ($routes) {
+        $routes->get('/', 'Unit::index');
+        $routes->post('update', 'Unit::update');
+        $routes->post('insert', 'Unit::insert');
+        $routes->post('delete', 'Unit::delete');
+    });
 });
