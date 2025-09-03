@@ -23,6 +23,12 @@
     "icon": "<i class=\"nav-icon fas fa-scale-unbalanced\"></i>",
     "class": ""
   },
+  "tag": {
+    "title": "Tag",
+    "url": "/admin/tag",
+    "icon": "<i class=\"nav-icon fas fa-hashtag\"></i>",
+    "class": ""
+  },
   "administration": {
     "title": "Administration",
     "url": "/",
