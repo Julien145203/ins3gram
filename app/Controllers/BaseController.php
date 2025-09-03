@@ -199,4 +199,24 @@ abstract class BaseController extends Controller
         log_message('debug', $txt);
         $this->messages[] = ['txt' => $txt, 'class' => 'alert-danger', 'toast' => 'error'];
     }
+
+    /**
+     * Ajoute un élément au fil d'Ariane.
+     *
+     * @param string $text Texte de l'élément.
+     * @param string|array $url URL ou segments de l'élément.
+     * @param string $info Informations supplémentaires.
+     * @return void
+     */
+    protected function addBreadcrumb($text, $url, $info = '')
+    {
+        if ($this->breadcrumb === null) {
+            $this->breadcrumb = [];
+        }
+        $this->breadcrumb[] = [
+            'text' => $text,
+            'url' => (is_array($url) ? '/' . implode('/', $url) : $url),
+            'info' => $info,
+        ];
+    }
 }

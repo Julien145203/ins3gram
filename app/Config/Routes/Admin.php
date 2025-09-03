@@ -17,6 +17,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('insert', 'UserPermission::insert');
         $routes->post('delete', 'UserPermission::delete');
     });
-
-
+    $routes->group('recipe', function ($routes) {
+        $routes->get('/', 'Recipe::index');
+        $routes->get('(:num)', 'Recipe::edit/$1');
+        $routes->get('new', 'Recipe::create');
+    });
 });
