@@ -11,6 +11,12 @@
     "icon" : "<i class=\"nav-icon fas fa-martini-glass-citrus\"></i>",
     "class" : ""
   },
+  "brand": {
+    "title": "Marque",
+    "url": "/admin/brand",
+    "icon": "<i class=\"nav-icon fas fa-signature\"></i>",
+    "class": ""
+  },
   "administration": {
     "title": "Administration",
     "url": "/",
