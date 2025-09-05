@@ -10,31 +10,29 @@ class RecipeModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['name', 'alcool','id_user','description'];
-
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
-    //Ajouter après pour gérer le bool et l'update
-    protected $beforeInsert = ['validateAlcool'];
-    protected $beforeUpdate = ['validateAlcool'];
+    protected $beforeInsert = ['setInsertValidationRules','validateAlcool'];
+    protected $beforeUpdate = ['setUpdateValidationRules','validateAlcool'];
 
-    protected function setInsertValidationRules(array $data){
-    $this->validationRules = [
-        'name'    => 'required|max_length[255]|is_unique[recipe.name,id,{id}]',
-        'alcool'  => 'permit_empty|in_list[0,1,on]',
-        'id_user' => 'permit_empty|integer',
-        'description' => 'permit_empty',
-    ];
-    return $data;
+    protected function setInsertValidationRules(array $data) {
+        $this->validationRules = [
+            'name'    => 'required|max_length[255]|is_unique[recipe.name]',
+            'alcool'  => 'permit_empty|in_list[0,1,on]',
+            'id_user' => 'permit_empty|integer',
+            'description' => 'permit_empty',
+        ];
+        return $data;
     }
-    protected function setUpdateValidationRules(array $data){
-            $id = $data['data']['id_recipe']?? null;
+    protected function setUpdateValidationRules(array $data) {
+        $id = $data['data']['id_recipe'] ?? null;
         $this->validationRules = [
             'name'    => "required|max_length[255]|is_unique[recipe.name,id,$id]",
             'alcool'  => 'permit_empty|in_list[0,1,on]',
@@ -57,13 +55,9 @@ class RecipeModel extends Model
             'integer' => 'L’ID de l’utilisateur doit être un nombre.',
         ],
     ];
-    protected function validateAlcool(array $data)
-    {
-        if(isset($data['alcool'])):
-            $data['data']['alcool'] =1;
-        else :
-            $data['data']['alcool']=0;
-        endif;
+
+    protected function validateAlcool(array $data) {
+        $data['data']['alcool'] = isset($data['data']['alcool']) ? 1 : 0;
         return $data;
     }
 }

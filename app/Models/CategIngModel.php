@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class CategIngModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'categ_ing';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -29,4 +31,23 @@ class CategIngModel extends Model
             'integer' => 'L’ID du parent doit être un nombre.',
         ],
     ];
+
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => [
+                'categ_ing.name',
+                'categ_ing.id',
+                'parent_categ.name',
+            ],
+            'joins' => [
+                [
+                    'table' => 'categ_ing as parent_categ',
+                    'condition' => 'parent_categ.id = categ_ing.id_categ_parent',
+                    'type' => 'left',
+                ]
+            ],
+            'select' => 'categ_ing.*, parent_categ.name as parent_name',
+        ];
+    }
 }
