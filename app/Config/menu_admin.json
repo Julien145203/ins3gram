@@ -23,6 +23,12 @@
     "icon": "<i class=\"nav-icon fas fa-scale-unbalanced\"></i>",
     "class": ""
   },
+  "categ-ing": {
+    "title": "Catégorie d'ingrédient",
+    "url": "/admin/categ-ing",
+    "icon": "<i class=\"nav-icon fas fa-list-alt\"></i>",
+    "class": ""
+  },
   "tag": {
     "title": "Tag",
     "url": "/admin/tag",
