@@ -21,8 +21,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('/', 'Recipe::index');
         $routes->get('(:num)', 'Recipe::edit/$1');
         $routes->get('new', 'Recipe::create');
+        $routes->get('list', 'Recipe::list');          // <-- pour DataTables AJAX
         $routes->post('update', 'Recipe::update');
         $routes->post('insert', 'Recipe::insert');
+        $routes->post('delete', 'Recipe::delete');    // <-- pour suppression AJAX
     });
     $routes->group('brand', function ($routes) {
         $routes->get('/', 'Brand::index');
@@ -41,5 +43,11 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('insert', 'Tag::insert');
         $routes->post('update', 'Tag::update');
         $routes->post('delete', 'Tag::delete');
+    });
+    $routes->group('category-ingredient', function ($routes) {
+        $routes->get('/', 'CategIng::index');
+        $routes->post('update', 'CategIng::update');
+        $routes->post('insert', 'CategIng::insert');
+        $routes->post('delete', 'CategIng::delete');
     });
 });
