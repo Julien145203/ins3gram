@@ -23,9 +23,9 @@
     "icon": "<i class=\"nav-icon fas fa-scale-unbalanced\"></i>",
     "class": ""
   },
-  "categ-ing": {
+  "category-ingredient": {
     "title": "Catégorie d'ingrédient",
-    "url": "/admin/categ-ing",
+    "url": "/admin/category-ingredient",
     "icon": "<i class=\"nav-icon fas fa-list-alt\"></i>",
     "class": ""
   },
