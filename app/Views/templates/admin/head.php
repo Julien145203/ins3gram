@@ -83,7 +83,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
     <!-- FULLCALENDAR -->
-    <script src="<?= base_url('/js/fullcalendar.global.min.js') ?>"></script>
 
 </head>
 <script>

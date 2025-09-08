@@ -10,44 +10,54 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('update', 'User::update');
         $routes->post('insert', 'User::insert');
         $routes->post('switch-active','User::switchActive');
+        $routes->get('search', 'User::search');
     });
+
     $routes->group('user-permission', function ($routes) {
         $routes->get('/', 'UserPermission::index');
         $routes->post('update', 'UserPermission::update');
         $routes->post('insert', 'UserPermission::insert');
         $routes->post('delete', 'UserPermission::delete');
     });
+
     $routes->group('recipe', function ($routes) {
         $routes->get('/', 'Recipe::index');
         $routes->get('(:num)', 'Recipe::edit/$1');
         $routes->get('new', 'Recipe::create');
-        $routes->get('list', 'Recipe::list');          // <-- pour DataTables AJAX
-        $routes->post('update', 'Recipe::update');
         $routes->post('insert', 'Recipe::insert');
-        $routes->post('delete', 'Recipe::delete');    // <-- pour suppression AJAX
+        $routes->post('update', 'Recipe::update');
     });
+
     $routes->group('brand', function ($routes) {
         $routes->get('/', 'Brand::index');
         $routes->post('update', 'Brand::update');
         $routes->post('insert', 'Brand::insert');
         $routes->post('delete', 'Brand::delete');
     });
+
+    $routes->group('ingredient', function ($routes) {
+        $routes->get('search', 'Ingredient::search');
+    });
+
     $routes->group('unit', function ($routes) {
         $routes->get('/', 'Unit::index');
+        $routes->get('search', 'Unit::search');
         $routes->post('update', 'Unit::update');
         $routes->post('insert', 'Unit::insert');
         $routes->post('delete', 'Unit::delete');
     });
     $routes->group('tag', function ($routes) {
         $routes->get('/', 'Tag::index');
+
         $routes->post('insert', 'Tag::insert');
         $routes->post('update', 'Tag::update');
         $routes->post('delete', 'Tag::delete');
     });
     $routes->group('category-ingredient', function ($routes) {
         $routes->get('/', 'CategIng::index');
-        $routes->post('update', 'CategIng::update');
+        $routes->get('getValidParents', 'CategIng::getValidParents');
         $routes->post('insert', 'CategIng::insert');
+        $routes->post('update', 'CategIng::update');
         $routes->post('delete', 'CategIng::delete');
     });
 });

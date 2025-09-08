@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class QuantityModel extends Model
 {
     protected $table            = 'quantity';
-    protected $primaryKey       = null;
+    protected $primaryKey       = 'id_ingredient';
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -39,5 +39,13 @@ class QuantityModel extends Model
             'decimal'  => 'La quantité doit être un nombre valide.',
         ],
     ];
+
+    public function getQuantityByRecipe($id_recipe) {
+        $this->select('quantity.*, ingredient.name as ingredient, unit.name as unit');
+        $this->join('ingredient','ingredient.id = quantity.id_ingredient','left');
+        $this->join('unit','unit.id = quantity.id_unit','left');
+        $this->where('id_recipe', $id_recipe);
+        return $this->findAll();
+    }
 
 }

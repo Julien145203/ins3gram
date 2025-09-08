@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class RecipeModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'recipe';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['name', 'alcool','id_user','description'];
     // Dates
@@ -59,5 +61,19 @@ class RecipeModel extends Model
     protected function validateAlcool(array $data) {
         $data['data']['alcool'] = isset($data['data']['alcool']) ? 1 : 0;
         return $data;
+    }
+
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => [
+                'name',
+            ],
+            'joins' => [
+                ['table' => 'user', 'type' => 'LEFT', 'condition' => 'user.id = recipe.id_user']
+            ],
+            'select' => 'recipe.*, user.username as creator',
+            'with_deleted' => true
+        ];
     }
 }

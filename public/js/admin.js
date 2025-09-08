@@ -47,7 +47,7 @@ function initAjaxSelect2(selector, options) {
         url: '',                     // URL pour la recherche AJAX (OBLIGATOIRE)
         searchFields: '',            // Champs à rechercher (optionnel, pour info)
         cache: true,                 // Met en cache les résultats pour éviter les requêtes répétées
-        showDescription: true        // Affiche ou non la description dans les résultats
+        showDescription: false       // Affiche ou non la description dans les résultats
     };
 
     // Fusion de la configuration par défaut avec les options personnalisées

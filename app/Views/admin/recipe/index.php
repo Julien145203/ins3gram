@@ -14,67 +14,82 @@
                         <th>ID</th>
                         <th>Nom</th>
                         <th>Créateur</th>
-                        <th class="text-center">Date modif.</th>
-                        <th>Alcool</th>
+                        <th>Date modif.</th>
                         <th>Statut</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    $(document).ready(function(){
-        let table = $('#tableRecipe').DataTable({
+    $(document).ready(function() {
+        var baseUrl = "<?= base_url(); ?>";
+        var table = $('#tableRecipe').DataTable({
             processing: true,
-            serverSide: false,
-            ajax: '<?= base_url("admin/recipe/list") ?>',
+            serverSide: true,
+            ajax: {
+                url: '<?= base_url('datatable/searchdatatable') ?>',
+                type: 'POST',
+                data: {
+                    model: 'RecipeModel'
+                }
+            },
             columns: [
                 { data: 'id' },
                 { data: 'name' },
-                { data: 'username' },
-                { data: 'updated_at', className: 'text-center' },
-                { data: 'alcool', render: function(data) {
-                        return data == 1
-                            ? '<span class="badge bg-info">Avec alcool</span>'
-                            : '<span class="badge bg-info ">Sans alcool</span>';
-                    }},
-                { data: 'deleted_at', render: function(data) {
-                        return !data
-                            ? '<span class="badge bg-success">Actif</span>'
-                            : '<span class="badge bg-danger">Inactif</span>';
-                    }},
-                { data: null, orderable: false, searchable: false, render: function(data) {
-                        return `
-                    <div class="btn-group" role="group">
-                        <a href="<?= base_url("admin/recipe/") ?>${data.id}" class="btn btn-sm btn-warning">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <button class="btn btn-sm btn-danger btn-delete" data-id="${data.id}">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                `;
-                    }}
-            ]
-        });
-
-        $('#tableRecipe').on('click', '.btn-delete', function(){
-            let id = $(this).data('id');
-            if(confirm("Voulez-vous vraiment supprimer cette recette ?")){
-                $.post("<?= base_url('admin/recipe/delete') ?>", {id: id}, function(res){
-                    if(res.success){
-                        alert(res.message);
-                        table.ajax.reload();
-                    } else {
-                        alert("Erreur: " + JSON.stringify(res.message));
+                { data: 'creator',
+                    render : function(data, type, row, meta) {
+                        return `<a class=" link-underline link-underline-opacity-0" href=<?= base_url('admin/user/') ?>${row.id_user}>${data}</a>`
                     }
-                }, 'json');
+                },
+                { data: 'updated_at',
+                    render : function(data, type, row, meta) {
+                        let date = new Date(data);
+                        return date.toLocaleDateString("fr") + " " + date.toLocaleTimeString("fr");
+                    }
+                },
+                {
+                    data: 'deleted_at',
+                    render: function(data, type, row) {
+                        if (data === 'active' || row.deleted_at === null) {
+                            return '<span class="badge text-bg-success">Active</span>';
+                        } else {
+                            return '<span class="badge text-bg-danger">Inactive</span>';
+                        }
+                    }
+                },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function(data, type, row) {
+                        return `
+                            <div class="btn-group" role="group">
+                                <a href="<?= base_url('admin/recipe/') ?>${row.id}") class="btn btn-sm btn-warning text-white" title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button onclick="deleteBrand(${row.id})" class="btn btn-sm btn-danger text-white" title="Supprimer">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+            ],
+            order: [[0, 'desc']],
+            pageLength: 10,
+            language: {
+                url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
             }
         });
+
+        // Fonction pour actualiser la table
+        window.refreshTable = function() {
+            table.ajax.reload(null, false); // false pour garder la pagination
+        };
     });
 </script>
