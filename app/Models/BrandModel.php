@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Models;
+
 use App\Traits\DataTableTrait;
+use App\Traits\Select2Searchable;
 use CodeIgniter\Model;
 
 class BrandModel extends Model
 {
-    use DataTableTrait;
+    use DataTableTrait, Select2Searchable;
+
     protected $table            = 'brand';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -14,7 +17,8 @@ class BrandModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['name'];
-    protected $useTimestamps = false;
+    protected $useTimestamps    = false;
+
     protected $validationRules = [
         'name' => 'required|max_length[255]|is_unique[brand.name,id,{id}]',
     ];
@@ -26,16 +30,19 @@ class BrandModel extends Model
             'is_unique'  => 'Cette marque existe déjà.',
         ],
     ];
+
+    // ---------------- DataTable configuration ----------------
     protected function getDataTableConfig(): array
     {
         return [
-            'searchable_fields' => [
-                'name',
-                'id',
-            ],
+            'searchable_fields' => ['id', 'name'],
             'joins' => [],
             'select' => '*',
         ];
     }
 
+    // ---------------- Select2 configuration ----------------
+    protected $select2SearchFields     = ['name'];
+    protected $select2DisplayField     = 'name';
+    protected $select2AdditionalFields = [];
 }

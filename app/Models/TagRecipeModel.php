@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class TagRecipeModel extends Model
 {
     protected $table            = 'tag_recipe';
-    protected $primaryKey       = null;
+    protected $primaryKey       = 'id_recipe';
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

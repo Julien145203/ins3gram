@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class FavoriteModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'favorite';
     protected $primaryKey       = null;
     protected $useAutoIncrement = false;
@@ -28,5 +30,24 @@ class FavoriteModel extends Model
             'integer'  => 'L’ID de l’utilisateur doit être un nombre.',
         ],
     ];
-
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['user.username', 'recipe.title'],
+            'joins' => [
+                [
+                    'table' => 'user',
+                    'condition' => 'favorite.user_id = user.id',
+                    'type' => 'inner'
+                ],
+                [
+                    'table' => 'recipe',
+                    'condition' => 'favorite.recipe_id = recipe.id',
+                    'type' => 'inner'
+                ]
+            ],
+            'select' => 'favorite.*, user.username, recipe.title',
+            'with_deleted' => false,
+        ];
+    }
 }

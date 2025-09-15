@@ -1,4 +1,10 @@
 <div class="row flex-column align-content-center">
+    <div class="col-2">
+        <img src="<?= base_url('assets/img/logo-full.png') ?>" alt="Ins3gram" class="w-100">
+    </div>
+</div>
+
+<div class="row flex-column align-content-center">
     <div class="col-6">
         <?php if (session()->getFlashdata('error')): ?>
             <div class="alert alert-danger">
@@ -29,8 +35,8 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                        <button type="submit" class="btn btn-primary">Se connecter</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </div>
             </form>
         </div>
     </div>

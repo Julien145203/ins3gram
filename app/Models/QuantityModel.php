@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class QuantityModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'quantity';
     protected $primaryKey       = 'id_ingredient';
     protected $useAutoIncrement = false;
@@ -47,5 +49,19 @@ class QuantityModel extends Model
         $this->where('id_recipe', $id_recipe);
         return $this->findAll();
     }
-
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['ingredient.name', 'quantity.amount', 'quantity.unit'],
+            'joins' => [
+                [
+                    'table' => 'ingredient',
+                    'condition' => 'quantity.ingredient_id = ingredient.id',
+                    'type' => 'inner'
+                ]
+            ],
+            'select' => 'quantity.*, ingredient.name as ingredient_name',
+            'with_deleted' => false,
+        ];
+    }
 }

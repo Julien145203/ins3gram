@@ -21,8 +21,7 @@ class TagRecipe extends Migration
             ]
         ]);
 
-        $this->forge->addKey('id_recipe', true);
-        $this->forge->addKey('id_tag', true);
+        $this->forge->addKey(['id_recipe','id_tag'], true);
         $this->forge->addForeignKey('id_recipe', 'recipe','id', 'CASCADE', 'RESTRICT');
         $this->forge->addForeignKey('id_tag', 'tag','id', 'CASCADE', 'RESTRICT');
         $this->forge->createTable('tag_recipe');

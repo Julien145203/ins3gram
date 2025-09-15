@@ -9,22 +9,12 @@
     <meta name="author" content="">
     <meta name="keyword" content="">
     <title><?= $title ?></title>
-    <link rel="apple-touch-icon" sizes="57x57" href="<?= base_url('/assets/favicon/apple-icon-57x57.png') ?>">
-    <link rel="apple-touch-icon" sizes="60x60" href="<?= base_url('/assets/favicon/apple-icon-60x60.png') ?>">
-    <link rel="apple-touch-icon" sizes="72x72" href="<?= base_url('/assets/favicon/apple-icon-72x72.png') ?>">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?= base_url('/assets/favicon/apple-icon-76x76.png') ?>">
-    <link rel="apple-touch-icon" sizes="114x114" href="<?= base_url('/assets/favicon/apple-icon-114x114.png') ?>">
-    <link rel="apple-touch-icon" sizes="120x120" href="<?= base_url('/assets/favicon/apple-icon-120x120.png') ?>">
-    <link rel="apple-touch-icon" sizes="144x144" href="<?= base_url('/assets/favicon/apple-icon-144x144.png') ?>">
-    <link rel="apple-touch-icon" sizes="152x152" href="<?= base_url('/assets/favicon/apple-icon-152x152.png') ?>">
-    <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('/assets/favicon/apple-icon-180x180.png') ?>">
-    <link rel="icon" type="image/png" sizes="192x192" href="<?= base_url('/assets/favicon/android-icon-192x192.png') ?>">
-    <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('/assets/favicon/favicon-32x32.png') ?>">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?= base_url('/assets/favicon/favicon-96x96.png') ?>">
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('/assets/favicon/favicon-16x16.png') ?>">
-    <link rel="manifest" href="<?= base_url('/assets/favicon/manifest.json') ?>">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/assets/favicon/ms-icon-144x144.png">
+    <link rel="icon" type="image/png" href="<?= base_url('/assets/favicon/favicon-96x96.png') ?>" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="<?= base_url('/assets/favicon/favicon.svg') ?>" />
+    <link rel="shortcut icon" href="<?= base_url('/assets/favicon/favicon.ico') ?>"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('/assets/favicon/apple-touch-icon.png') ?>"/>
+    <meta name="apple-mobile-web-app-title" content="Ins3gram" />
+    <link rel="manifest" href="<?= base_url('/assets/favicon/site.webmanifest') ?>"/>
     <meta name="theme-color" content="#ffffff">
     <!-- CSS-->
     <link rel="stylesheet" href="<?= base_url('/vendors/simplebar/css/simplebar.css') ?>">
@@ -37,22 +27,23 @@
     <link href="<?= base_url('/css/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
 
     <!-- Javascript -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="<?= base_url('/js/jquery-3.7.1.min.js') ?>"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js" defer></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="<?= base_url('/js/config.js') ?>"></script>
     <script src="<?= base_url('/vendors/@coreui/coreui/js/coreui.bundle.min.js') ?>"></script>
     <script src="<?= base_url('/vendors/simplebar/js/simplebar.min.js') ?>"></script>
     <script src="<?= base_url('/vendors/@coreui/utils/js/index.js') ?>"></script>
     <script>
-        var base_url = '<?= base_url(); ?>';
-        let csrfName = '<?= csrf_token() ?>';
-        let csrfHash = '<?= csrf_hash() ?>';
+    var base_url = '<?= base_url(); ?>';
+    let csrfName = '<?= csrf_token() ?>';
+    let csrfHash = '<?= csrf_hash() ?>';
     </script>
     <script src="<?= base_url('/js/admin.js') ?>"></script>
     <script src="<?= base_url('/js/toastr.min.js') ?>"></script>
     <script src="<?= base_url('/js/tinymce/tinymce.min.js') ?>"></script>
     <script src="<?= base_url('/js/main.js') ?>"></script>
-
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -81,8 +72,6 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-
-    <!-- FULLCALENDAR -->
 
 </head>
 <script>

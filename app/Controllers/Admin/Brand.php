@@ -15,24 +15,28 @@ class Brand extends BaseController
 
     public function insert()
     {
-        $upm = model('BrandModel');
+        $brandModel = model('BrandModel');
         $data = $this->request->getPost();
-        if ($upm->insert($data)) {
+
+        if ($brandModel->insert($data)) {
             $this->success('La marque a bien été créée');
         } else {
-            foreach ($upm->errors() as $error) {
+            foreach ($brandModel->errors() as $error) {
                 $this->error($error);
             }
         }
+
         return $this->redirect('admin/brand');
     }
 
-    public function update() {
-        $upm = model('BrandModel');
+    public function update()
+    {
+        $brandModel = model('BrandModel');
         $data = $this->request->getPost();
-        $id = $data['id'];
+        $id = $data['id'] ?? null;
         unset($data['id']);
-        if ($upm->update($id, $data)) {
+
+        if ($brandModel->update($id, $data)) {
             return $this->response->setJSON([
                 'success' => true,
                 'message' => "La marque a été modifiée avec succès !",
@@ -40,15 +44,17 @@ class Brand extends BaseController
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => $upm->errors(),
+                'message' => $brandModel->errors(),
             ]);
         }
     }
 
-    public function delete() {
-        $upm = model('BrandModel');
+    public function delete()
+    {
+        $brandModel = model('BrandModel');
         $id = $this->request->getPost('id');
-        if ($upm->delete($id)) {
+
+        if ($brandModel->delete($id)) {
             return $this->response->setJSON([
                 'success' => true,
                 'message' => "La marque a été supprimée avec succès !",
@@ -56,9 +62,29 @@ class Brand extends BaseController
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => $upm->errors(),
+                'message' => $brandModel->errors(),
             ]);
         }
     }
-}
 
+    /**
+     * Recherche pour Select2
+     */
+    public function search()
+    {
+        $request = $this->request;
+
+        if (!$request->isAJAX()) {
+            return $this->response->setJSON(['error' => 'Requête non autorisée']);
+        }
+
+        $brandModel = model('BrandModel');
+        $search = $request->getGet('search') ?? '';
+        $page = (int)($request->getGet('page') ?? 1);
+        $limit = 20;
+
+        $result = $brandModel->quickSearchForSelect2($search, $page, $limit);
+
+        return $this->response->setJSON($result);
+    }
+}

@@ -64,6 +64,7 @@ class IngredientSeeder extends Seeder
             ['name' => 'Jus d\'orange', 'description' => 'Jus d\'orange frais', 'id_categ' => 29, 'id_brand' => null],
             ['name' => 'Jus de cranberry', 'description' => 'Jus de canneberge', 'id_categ' => 30, 'id_brand' => null],
             ['name' => 'Jus d\'ananas', 'description' => 'Jus d\'ananas tropical', 'id_categ' => 31, 'id_brand' => null],
+            ['name' => 'Jus de tomate', 'description' => 'Jus de tomate', 'id_categ' => 34, 'id_brand' => null],
 
             // Garnitures et décorations
             ['name' => 'Citron', 'description' => 'Citron jaune frais', 'id_categ' => 32, 'id_brand' => null],

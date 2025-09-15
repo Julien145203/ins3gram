@@ -12,7 +12,7 @@ class RecipeModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['name', 'alcool','id_user','description'];
     // Dates
@@ -57,12 +57,6 @@ class RecipeModel extends Model
             'integer' => 'L’ID de l’utilisateur doit être un nombre.',
         ],
     ];
-
-    protected function validateAlcool(array $data) {
-        $data['data']['alcool'] = isset($data['data']['alcool']) ? 1 : 0;
-        return $data;
-    }
-
     protected function getDataTableConfig(): array
     {
         return [
@@ -76,4 +70,16 @@ class RecipeModel extends Model
             'with_deleted' => true
         ];
     }
+    public function reactive(int $id): bool
+    {
+        return $this->builder()
+            ->where('id', $id)
+            ->update(['deleted_at' => null, 'updated_at' => date('Y-m-d H:i:s')]);
+    }
+
+    protected function validateAlcool(array $data) {
+    $data['data']['alcool'] = isset($data['data']['alcool']) ? 1 : 0;
+    return $data;
+    }
+
 }

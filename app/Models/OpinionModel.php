@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-
+use \App\Traits\DataTableTrait;
 class OpinionModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'opinion';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -47,6 +48,25 @@ class OpinionModel extends Model
             'integer'  => 'L’ID de l’utilisateur doit être un nombre.',
         ],
     ];
-
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['opinion.comment', 'user.username', 'recipe.title'],
+            'joins' => [
+                [
+                    'table' => 'user',
+                    'condition' => 'opinion.user_id = user.id',
+                    'type' => 'inner'
+                ],
+                [
+                    'table' => 'recipe',
+                    'condition' => 'opinion.recipe_id = recipe.id',
+                    'type' => 'inner'
+                ]
+            ],
+            'select' => 'opinion.*, user.username, recipe.title',
+            'with_deleted' => false,
+        ];
+    }
 
 }
