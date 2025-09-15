@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class OptionModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'option';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -29,5 +31,13 @@ class OptionModel extends Model
             'string' => 'La valeur doit être une chaîne de caractères.',
         ],
     ];
-
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['option.name', 'option.value'],
+            'joins' => [],
+            'select' => '*',
+            'with_deleted' => false,
+        ];
+    }
 }

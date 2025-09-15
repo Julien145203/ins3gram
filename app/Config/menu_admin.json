@@ -1,55 +1,114 @@
 {
-  "accueil": {
-    "title": "Tableau de Bord",
+  "Accueil": {
+    "title": "Accueil",
     "url": "/admin/dashboard",
     "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
     "class": "main-menu-accueil"
   },
-  "recipe": {
+
+  "recipes": {
     "title": "Recettes",
-    "url" : "/admin/recipe",
-    "icon" : "<i class=\"nav-icon fas fa-martini-glass-citrus\"></i>",
-    "class" : ""
+    "url": "/admin/recipe",
+    "icon": "<i class=\"nav-icon fas fa-utensils\"></i>",
+    "subs": {
+      "recipe": {
+        "title": "Liste des recettes",
+        "url": "/admin/recipe",
+        "icon": "<i class=\"nav-icon fas fa-book-open\"></i>"
+      },
+      "step": {
+        "title": "Étapes",
+        "url": "/admin/step",
+        "icon": "<i class=\"nav-icon fas fa-list-ol\"></i>"
+      },
+      "option": {
+        "title": "Options",
+        "url": "/admin/option",
+        "icon": "<i class=\"nav-icon fas fa-sliders-h\"></i>"
+      },
+      "tag": {
+        "title": "Mots-clés",
+        "url": "/admin/tag",
+        "icon": "<i class=\"nav-icon fas fa-hashtag\"></i>"
+      }
+    }
   },
-  "brand": {
-    "title": "Marque",
-    "url": "/admin/brand",
-    "icon": "<i class=\"nav-icon fas fa-signature\"></i>",
-    "class": ""
+
+  "ingredients": {
+    "title": "Ingrédients & Produits",
+    "url": "/admin/ingredient",
+    "icon": "<i class=\"nav-icon fas fa-seedling\"></i>",
+    "subs": {
+      "ingredient": {
+        "title": "Ingrédients",
+        "url": "/admin/ingredient",
+        "icon": "<i class=\"nav-icon fas fa-apple-whole\"></i>"
+      },
+      "category-ingredient": {
+        "title": "Catégories",
+        "url": "/admin/category-ingredient",
+        "icon": "<i class=\"nav-icon fas fa-list\"></i>"
+      },
+      "brand": {
+        "title": "Marques",
+        "url": "/admin/brand",
+        "icon": "<i class=\"nav-icon fas fa-tags\"></i>"
+      },
+      "unit-quantity": {
+        "title": "Unités",
+        "url": "/admin/unit",
+        "icon": "<i class=\"nav-icon fas fa-balance-scale\"></i>"
+      },
+      "substitute": {
+        "title": "Substituts",
+        "url": "/admin/substitute",
+        "icon": "<i class=\"nav-icon fas fa-arrows-rotate\"></i>"
+      }
+    }
   },
-  "unit": {
-    "title": "Unité",
-    "url": "/admin/unit",
-    "icon": "<i class=\"nav-icon fas fa-scale-unbalanced\"></i>",
-    "class": ""
+
+  "content": {
+    "title": "Contenus",
+    "url": "/admin/media",
+    "icon": "<i class=\"nav-icon fas fa-images\"></i>",
+    "subs": {
+      "media": {
+        "title": "Médias",
+        "url": "/admin/media",
+        "icon": "<i class=\"nav-icon fas fa-image\"></i>"
+      },
+      "opinion": {
+        "title": "Avis",
+        "url": "/admin/opinion",
+        "icon": "<i class=\"nav-icon fas fa-comment-dots\"></i>"
+      }
+    }
   },
-  "category-ingredient": {
-    "title": "Catégorie d'ingrédient",
-    "url": "/admin/category-ingredient",
-    "icon": "<i class=\"nav-icon fas fa-list-alt\"></i>",
-    "class": ""
-  },
-  "tag": {
-    "title": "Tag",
-    "url": "/admin/tag",
-    "icon": "<i class=\"nav-icon fas fa-hashtag\"></i>",
-    "class": ""
-  },
-  "administration": {
-    "title": "Administration",
-    "url": "/",
-    "icon": "<i class=\"nav-icon fas fa-gear\"></i>",
-    "class": "",
+
+  "users": {
+    "title": "Utilisateurs",
+    "url": "/admin/user",
+    "icon": "<i class=\"nav-icon fas fa-users\"></i>",
     "subs": {
       "user": {
-        "title": "Utilisateur",
+        "title": "Comptes",
         "url": "/admin/user",
-        "icon": "<i class=\"nav-icon fas fa-users-gear\"></i>"
+        "icon": "<i class=\"nav-icon fas fa-user\"></i>"
       },
       "user-permission": {
-        "title": "Rôle",
+        "title": "Rôles & Permissions",
         "url": "/admin/user-permission",
-        "icon": "<i class=\"nav-icon fas fa-user-gear\"></i>"
+        "icon": "<i class=\"nav-icon fas fa-user-shield\"></i>"
+      },
+      "favorite": {
+        "title": "Favoris",
+        "url": "/admin/favorite",
+        "icon": "<i class=\"nav-icon fas fa-heart\"></i>"
+      },
+      "chat": {
+        "title": "Chat",
+        "url": "/admin/chat",
+        "icon": "<i class=\"nav-icon fas fa-comments\"></i>"
       }
     }
   }

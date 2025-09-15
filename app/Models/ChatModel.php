@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class ChatModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'chat';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -40,5 +42,19 @@ class ChatModel extends Model
             'integer'  => 'L’ID du destinataire doit être un nombre.',
         ],
     ];
-
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['chat.message', 'user.username'],
+            'joins' => [
+                [
+                    'table' => 'user',
+                    'condition' => 'chat.user_id = user.id',
+                    'type' => 'inner'
+                ]
+            ],
+            'select' => 'chat.*, user.username',
+            'with_deleted' => false,
+        ];
+    }
 }

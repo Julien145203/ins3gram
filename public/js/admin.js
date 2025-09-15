@@ -154,3 +154,20 @@ function initAjaxSelect2(selector, options) {
 
     return true; // Succès
 }
+
+function initTinymce(selector) {
+    tinymce.init({
+        selector: selector,
+        height : "200",
+        language: 'fr_FR',
+        menubar: false,
+        plugins: [
+            'preview', 'code', 'fullscreen','wordcount', 'link','lists',
+        ],
+        skin: 'oxide',
+        content_encoding: 'text',
+        toolbar: 'undo redo | formatselect | ' +
+            'bold italic link forecolor backcolor removeformat | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +' fullscreen  preview code'
+    });
+}

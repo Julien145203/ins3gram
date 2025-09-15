@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class MediaModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'media';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -48,5 +50,19 @@ class MediaModel extends Model
             'max_length' => 'Le texte alternatif ne peut pas dépasser 255 caractères.',
         ],
     ];
-
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['media.type', 'media.url'],
+            'joins' => [
+                [
+                    'table' => 'recipe',
+                    'condition' => 'media.recipe_id = recipe.id',
+                    'type' => 'inner'
+                ]
+            ],
+            'select' => 'media.*, recipe.title as recipe_title',
+            'with_deleted' => false,
+        ];
+    }
 }

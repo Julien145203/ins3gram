@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class StepModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'step';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -14,7 +16,7 @@ class StepModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['description', 'order','id_recipe'];
     protected $validationRules = [
-        'description' => 'required|string|is_unique[step.description,id,{id}]',
+        'description' => 'required|string',
         'order'       => 'required|integer',
         'id_recipe'   => 'required|integer',
     ];
@@ -22,7 +24,6 @@ class StepModel extends Model
     protected $validationMessages = [
         'description' => [
             'required'  => 'La description est obligatoire.',
-            'is_unique' => 'Cette étape existe déjà.',
         ],
         'order' => [
             'required' => 'L’ordre est obligatoire.',
@@ -33,6 +34,20 @@ class StepModel extends Model
             'integer'  => 'L’ID de la recette doit être un nombre.',
         ],
     ];
-
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['step.description', 'recipe.title'],
+            'joins' => [
+                [
+                    'table' => 'recipe',
+                    'condition' => 'step.recipe_id = recipe.id',
+                    'type' => 'inner'
+                ]
+            ],
+            'select' => 'step.*, recipe.title as recipe_title',
+            'with_deleted' => false,
+        ];
+    }
 
 }

@@ -15,5 +15,6 @@ class MasterSeeder extends Seeder
         $this->call('UnitSeeder');
         $this->call('IngredientSeeder');
         $this->call('TagSeeder');
+        $this->call('RecipeSeeder');
     }
 }

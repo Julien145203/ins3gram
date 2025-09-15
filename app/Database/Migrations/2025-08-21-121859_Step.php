@@ -19,7 +19,6 @@ class Step extends Migration
                 'type' => 'TEXT',
                 'constraint' => 11,
                 'null' => false,
-                'unique' => true,
             ],
             'order' => [
                 'type' => 'INT',
