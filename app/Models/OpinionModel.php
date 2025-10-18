@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-use \App\Traits\DataTableTrait;
+
 class OpinionModel extends Model
 {
     use DataTableTrait;
@@ -48,25 +48,23 @@ class OpinionModel extends Model
             'integer'  => 'L’ID de l’utilisateur doit être un nombre.',
         ],
     ];
-    protected function getDataTableConfig(): array
-    {
-        return [
-            'searchable_fields' => ['opinion.comment', 'user.username', 'recipe.title'],
-            'joins' => [
-                [
-                    'table' => 'user',
-                    'condition' => 'opinion.user_id = user.id',
-                    'type' => 'inner'
-                ],
-                [
-                    'table' => 'recipe',
-                    'condition' => 'opinion.recipe_id = recipe.id',
-                    'type' => 'inner'
-                ]
-            ],
-            'select' => 'opinion.*, user.username, recipe.title',
-            'with_deleted' => false,
-        ];
+
+    function insertOrUpdateScore($id_recipe, $id_user, $score = null) {
+        $opinion = $this->select('COUNT(id) as count')->where('id_recipe', $id_recipe)->where('id_user', $id_user)->first();
+        if ($opinion['count'] == 0) {
+            //insert
+            $id = $this->insert([
+                'id_recipe' => $id_recipe,
+                'id_user' => $id_user,
+                'score' => $score
+            ]);
+            return ['type' => 'insert', 'id' => $id ];
+        } else {
+            //update
+            $result = $this->set('score', $score)->where('id_recipe', $id_recipe)->where('id_user', $id_user)->update();
+            return ['type' => 'update', 'success' => $result ];
+        }
+        return ['type' => 'error'];
     }
 
 }

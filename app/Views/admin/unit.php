@@ -46,7 +46,6 @@
                 <table id="unitTable" class="table table-hover table-striped align-middle">
                     <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nom</th>
                         <th>Actions</th>
                     </tr>
@@ -98,7 +97,6 @@
                 data: { model: 'UnitModel' }
             },
             columns: [
-                { data: 'id' },
                 { data: 'name' },
                 {
                     data: null,

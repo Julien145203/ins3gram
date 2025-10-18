@@ -5,14 +5,8 @@
     "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
     "class": "main-menu-accueil"
   },
-
-  "recipes": {
-    "title": "Recettes",
-    "url": "/admin/recipe",
-    "icon": "<i class=\"nav-icon fas fa-utensils\"></i>",
-    "subs": {
       "recipe": {
-        "title": "Liste des recettes",
+        "title": "Recettes",
         "url": "/admin/recipe",
         "icon": "<i class=\"nav-icon fas fa-book-open\"></i>"
       },
@@ -20,15 +14,7 @@
         "title": "Mots-clés",
         "url": "/admin/tag",
         "icon": "<i class=\"nav-icon fas fa-hashtag\"></i>"
-      }
-    }
-  },
-
-  "ingredients": {
-    "title": "Ingrédients & Produits",
-    "url": "/admin/ingredient",
-    "icon": "<i class=\"nav-icon fas fa-seedling\"></i>",
-    "subs": {
+      },
       "ingredient": {
         "title": "Ingrédients",
         "url": "/admin/ingredient",
@@ -48,9 +34,7 @@
         "title": "Unités",
         "url": "/admin/unit",
         "icon": "<i class=\"nav-icon fas fa-balance-scale\"></i>"
-      }
-    }
-  },
+      },
 
   "content": {
     "title": "Contenus",

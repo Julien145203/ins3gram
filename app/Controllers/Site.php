@@ -16,4 +16,9 @@ class Site extends BaseController
     {
         return $this->view('templates/404', [], false);
     }
+
+    public function test() {
+
+    }
+
 }

@@ -13,12 +13,12 @@
             <?php
             // Ouverture du formulaire selon le cas : update ou create
             if(isset($user)):
-                echo form_open('admin/user/update', ['class' => 'needs-validation', 'novalidate' => true]); ?>
+                echo form_open_multipart('admin/user/update', ['class' => 'needs-validation', 'novalidate' => true]); ?>
                 <!-- Champ caché pour stocker l'ID de l'utilisateur lors de la modification -->
                 <input type="hidden" name="id" value="<?= $user->id ?>">
             <?php
             else:
-                echo form_open('admin/user/insert', ['class' => 'needs-validation', 'novalidate' => true]);
+                echo form_open_multipart('admin/user/insert', ['class' => 'needs-validation', 'novalidate' => true]);
             endif;
             ?>
             <div class="card-body">
@@ -102,7 +102,7 @@
                                    class="form-control"
                                    minlength="8"
                                    placeholder="<?= isset($user) ? 'Nouveau mot de passe (laisser vide pour conserver l\'actuel)' : 'Mot de passe' ?>"
-                                    <?= !isset($user) ? 'required' : '' ?>>
+                                <?= !isset($user) ? 'required' : '' ?>>
                             <label for="password">
                                 <?php if(isset($user)) : ?>
                                     Nouveau mot de passe <small class="text-muted">(laisser vide pour conserver l'actuel)</small>
@@ -146,7 +146,7 @@
                                     <?php foreach($permissions as $permission) : ?>
                                         <!-- Si l'utilisateur a déjà un rôle, on le sélectionne -->
                                         <option value="<?= $permission['id'] ?>"
-                                                <?= (isset($user) && $user->id_permission == $permission['id']) || set_value('id_permission') == $permission['id'] ? 'selected' : '' ?>>
+                                            <?= (isset($user) && $user->id_permission == $permission['id']) || set_value('id_permission') == $permission['id'] ? 'selected' : '' ?>>
                                             <?= esc($permission['name']) ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -155,6 +155,24 @@
                             <label for="id_permission">Rôle <span class="text-danger">*</span></label>
                             <div class="invalid-feedback">
                                 <?= validation_show_error('id_permission') ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="row">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <?php if(isset($user) && $user->hasAvatar()): ?>
+                                        <img src="<?= isset($user) ? $user->getAvatarUrl() : base_url('assets/img/default-avatar.png') ?>"
+                                             alt="Avatar"
+                                             class="rounded-circle img-thumbnail" style="max-width: 100px; height: auto;">
+                                    <?php else: ?>
+                                        <p class="text-muted small">Aucun avatar</p>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <input type="file" name="avatar" id="avatar" class="form-control">
+                                </div>
                             </div>
                         </div>
                     </div>

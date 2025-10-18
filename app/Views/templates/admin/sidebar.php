@@ -1,7 +1,7 @@
 <div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
     <div class="sidebar-header border-bottom">
         <div class="sidebar-brand">
-            ins3gram
+            <img src="<?= base_url("/assets/img/logo-32.png"); ?>">Ins3gram
         </div>
         <a href="<?= base_url(); ?>" target="_blank" class="header-toggler" alt="Voir le site" title="Voir le site"><i class="fa-solid fa-house-laptop"></i></a>
     </div>

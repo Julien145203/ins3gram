@@ -32,17 +32,50 @@ class BrandModel extends Model
     ];
 
     // ---------------- DataTable configuration ----------------
-    protected function getDataTableConfig(): array
-    {
-        return [
-            'searchable_fields' => ['id', 'name'],
-            'joins' => [],
-            'select' => '*',
-        ];
-    }
+   protected function getDataTableConfig(): array
+   {
+       return [
+           'searchable_fields' => ['brand.id', 'brand.name'], // recherche sur l'ID et le nom
+           'joins' => [
+               [
+                   'table' => 'media',
+                   'condition' => 'media.entity_id = brand.id AND media.entity_type = "brand"',
+                   'type' => 'left',
+               ],
+           ],
+           'select' => 'brand.*, media.file_path as image', // récupère le chemin de l'image
+       ];
+   }
 
     // ---------------- Select2 configuration ----------------
     protected $select2SearchFields     = ['name'];
     protected $select2DisplayField     = 'name';
     protected $select2AdditionalFields = [];
+
+// -------------------- Sauvegarde marque (insert ou update) avec validation dynamique --------------------
+    public function saveBrand(array $data, $id = null)
+    {
+        // Validation dynamique pour le name unique
+        $rules = [
+            'name' => 'required|max_length[255]',
+        ];
+
+        if ($id) {
+            // Si on update, on ajoute la règle unique en excluant l'ID courant
+            $rules['name'] .= "|is_unique[brand.name,id,{$id}]";
+        } else {
+            // Si création, unique standard
+            $rules['name'] .= "|is_unique[brand.name]";
+        }
+
+        $this->setValidationRules($rules);
+
+        // Retourne true ou false selon succès, accessible via $this->errors() si besoin
+        if ($id) {
+            return $this->update($id, $data);
+        } else {
+            return $this->insert($data);
+        }
+    }
+
 }

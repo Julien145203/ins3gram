@@ -28,5 +28,10 @@ class TagRecipeModel extends Model
             'integer'  => 'L’ID du tag doit être un nombre.',
         ],
     ];
-
+    public function getTagByRecipe($id_recipe) {
+        $this->select('tag.name');
+        $this->join('tag','tag_recipe.id_tag = tag.id');
+        $this->where('id_recipe',$id_recipe);
+        return $this->findAll();
+    }
 }

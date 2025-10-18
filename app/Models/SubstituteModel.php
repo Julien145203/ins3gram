@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
+use App\Traits\DataTableTrait;
 
 class SubstituteModel extends Model
 {
     use DataTableTrait;
-    protected $table            = 'substitute';
-    protected $primaryKey       = null;
+    protected $table = 'substitute';
+    protected $primaryKey = 'id_ingredient_base'; // clé composite
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -17,20 +17,9 @@ class SubstituteModel extends Model
     protected $allowedFields    = ['id_ingredient_base','id_ingredient_sub'];
     protected $validationRules = [
         'id_ingredient_base' => 'required|integer',
-        'id_ingredient_sub'  => 'required|integer|different[id_ingredient_base]',
+        'id_ingredient_sub'  => 'required|integer|differs[id_ingredient_base]',
     ];
 
-    protected $validationMessages = [
-        'id_ingredient_base' => [
-            'required' => 'L’ingrédient de base est obligatoire.',
-            'integer'  => 'L’ID de l’ingrédient de base doit être un nombre.',
-        ],
-        'id_ingredient_sub' => [
-            'required'  => 'L’ingrédient substitut est obligatoire.',
-            'integer'   => 'L’ID de l’ingrédient substitut doit être un nombre.',
-            'different' => 'L’ingrédient substitut doit être différent de l’ingrédient de base.',
-        ],
-    ];
     protected function getDataTableConfig(): array
     {
         return [
@@ -38,12 +27,12 @@ class SubstituteModel extends Model
             'joins' => [
                 [
                     'table' => 'ingredient as ingredient',
-                    'condition' => 'substitute.id_ingredient = ingredient.id',
+                    'condition' => 'substitute.id_ingredient_base = ingredient.id',
                     'type' => 'inner'
                 ],
                 [
                     'table' => 'ingredient as substitute_ingredient',
-                    'condition' => 'substitute.id_substitute = substitute_ingredient.id',
+                    'condition' => 'substitute.id_ingredient_sub = substitute_ingredient.id',
                     'type' => 'inner'
                 ]
             ],
@@ -51,5 +40,13 @@ class SubstituteModel extends Model
             'with_deleted' => false,
         ];
     }
+
+    // ---------------- Ingrédients utilisant ce substitut ----------------
+    public function getUsedBy(int $subId): array
+    {
+        return $this->select('ingredient.id, ingredient.name')
+            ->join('ingredient', 'substitute.id_ingredient_base = ingredient.id')
+            ->where('substitute.id_ingredient_sub', $subId)
+            ->findAll();
+    }
 }
-// TODO:Substitute columns

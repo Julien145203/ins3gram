@@ -36,9 +36,9 @@
     <script src="<?= base_url('/vendors/simplebar/js/simplebar.min.js') ?>"></script>
     <script src="<?= base_url('/vendors/@coreui/utils/js/index.js') ?>"></script>
     <script>
-    var base_url = '<?= base_url(); ?>';
-    let csrfName = '<?= csrf_token() ?>';
-    let csrfHash = '<?= csrf_hash() ?>';
+        var base_url = '<?= base_url(); ?>';
+        let csrfName = '<?= csrf_token() ?>';
+        let csrfHash = '<?= csrf_hash() ?>';
     </script>
     <script src="<?= base_url('/js/admin.js') ?>"></script>
     <script src="<?= base_url('/js/toastr.min.js') ?>"></script>
@@ -68,10 +68,7 @@
     <link href="<?=base_url('/css/select2-bootstrap-5-theme.min.css'); ?>" rel="stylesheet"></link>
     <script src="<?= base_url('/js/select2.min.js') ?>"></script>
 
-    <!-- SELECT 2 (recherche) -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
 
 </head>
 <script>
