@@ -19,13 +19,13 @@
                         <th>Actions</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
@@ -41,14 +41,19 @@
             },
             columns: [
                 { data: 'id' },
-                { data: 'name' },
-                { data: 'creator',
-                    render : function(data, type, row, meta) {
-                        return `<a class=" link-underline link-underline-opacity-0" href=<?= base_url('admin/user/') ?>${row.id_user}>${data}</a>`
+                {
+                    data: 'name',
+                    render : function(data, type, row) {
+                        return `<a class="link-underline link-underline-opacity-0"
+                                    href="<?= base_url('admin/recipe/') ?>${row.id}">
+                                    ${data}
+                                </a>`;
                     }
                 },
-                { data: 'updated_at',
-                    render : function(data, type, row, meta) {
+                { data: 'creator' },
+                {
+                    data: 'updated_at',
+                    render : function(data) {
                         let date = new Date(data);
                         return date.toLocaleDateString("fr") + " " + date.toLocaleTimeString("fr");
                     }
@@ -56,11 +61,18 @@
                 {
                     data: 'deleted_at',
                     render: function(data, type, row) {
-                        if (data === 'active' || row.deleted_at === null) {
-                            return '<span class="badge text-bg-success">Active</span>';
-                        } else {
-                            return '<span class="badge text-bg-danger">Inactive</span>';
-                        }
+                        const isActive = (data === 'active' || row.deleted_at === null);
+                        return `
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox"
+                                    id="switch-${row.id}"
+                                    ${isActive ? 'checked' : ''}
+                                    onchange="toggleRecipeStatus(${row.id}, this.checked ? 'activate' : 'deactivate')">
+                                <label class="form-check-label" for="switch-${row.id}">
+                                    ${isActive ? 'Active' : 'Inactive'}
+                                </label>
+                            </div>
+                        `;
                     }
                 },
                 {
@@ -69,12 +81,14 @@
                     render: function(data, type, row) {
                         return `
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('admin/recipe/') ?>${row.id}") class="btn btn-sm btn-warning text-white" title="Modifier">
+                                <a href="<?= base_url('/admin/recipe/') ?>${row.id}"
+                                   class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button onclick="deleteBrand(${row.id})" class="btn btn-sm btn-danger text-white" title="Supprimer">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <a href="<?= base_url('/recette/') ?>${row.slug}"
+                                    class="btn btn-sm btn-primary" target="_blank" title="Voir la recette">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                             </div>
                         `;
                     }
@@ -89,7 +103,59 @@
 
         // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
+
+    function toggleRecipeStatus(id, action) {
+        const actionText = action === 'activate' ? 'activer' : 'désactiver';
+        const actionColor = action === 'activate' ? '#28a745' : '#dc3545';
+
+        Swal.fire({
+            title: `Êtes-vous sûr ?`,
+            text: `Voulez-vous vraiment ${actionText} cette recette ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: actionColor,
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: `Oui, ${actionText} !`,
+            cancelButtonText: "Annuler",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "<?= base_url('/admin/recipe/switch-active'); ?>",
+                    type: "POST",
+                    data: { 'id_recipe': id },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Succès !',
+                                text: response.message,
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            refreshTable();
+                        } else {
+                            Swal.fire({
+                                title: 'Erreur !',
+                                text: response.message || 'Une erreur est survenue',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Erreur !',
+                            text: 'Erreur de communication avec le serveur',
+                            icon: 'error'
+                        });
+                    }
+                });
+            } else {
+                // Si annulé, on refresh pour remettre le switch dans son état initial
+                refreshTable();
+            }
+        });
+    }
 </script>
