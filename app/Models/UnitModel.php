@@ -8,8 +8,8 @@ use CodeIgniter\Model;
 
 class UnitModel extends Model
 {
-    use DataTableTrait;
-    use Select2Searchable;
+    use DataTableTrait, Select2Searchable;
+
     protected $table            = 'unit';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -17,6 +17,7 @@ class UnitModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['name'];
+    protected $useTimestamps    = false;
 
     protected $validationRules = [
         'name' => 'required|max_length[255]|is_unique[unit.name,id,{id}]',
@@ -28,19 +29,19 @@ class UnitModel extends Model
             'is_unique'  => 'Cette unité existe déjà.',
         ],
     ];
+
+    // ---------------- DataTable configuration ----------------
     protected function getDataTableConfig(): array
     {
         return [
-            'searchable_fields' => [
-                'name',
-                'id',
-            ],
-            'joins' => [],
+            'searchable_fields' => ['id', 'name'], // recherche sur l'ID et le nom
+            'joins' => [], // pas de jointures nécessaires
             'select' => '*',
         ];
     }
 
-    // Configuration pour Select2Searchable
+    // ---------------- Select2 configuration ----------------
     protected $select2SearchFields = ['name'];
     protected $select2DisplayField = 'name';
+    protected $select2AdditionalFields = [];
 }

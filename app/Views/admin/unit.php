@@ -1,32 +1,49 @@
 <div class="row">
-    <!-- Formulaire pour ajouter une nouvelle unité -->
+    <!-- Colonne gauche -->
     <div class="col-md-3">
-        <div class="card">
-            <?= form_open('admin/unit/insert') ?>
-            <div class="card-header h4">
-                Ajouter une nouvelle unité
+        <!-- Card Total Unités -->
+        <div class="card text-white bg-primary shadow-sm mb-3">
+            <div class="card-body d-flex justify-content-evenly">
+                <div class="display-4">
+                    <i class="nav-icon fas fa-balance-scale"></i>
+                </div>
+                <div class="text-center">
+                    <h5 class="card-title mb-1">Total Unités</h5>
+                    <h2 class="card-text mb-0"><?= esc($totalUnits) ?></h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire création -->
+        <div class="card shadow-sm border-0">
+            <?= form_open('admin/unit/insert', ['id' => 'unitForm']) ?>
+            <div class="card-header bg-primary text-white h4">
+                Créer une unité
             </div>
             <div class="card-body">
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <input id="name" class="form-control" placeholder="Nom de l'unité" type="text" name="name" required>
                     <label for="name">Nom de l'unité</label>
+                    <div id="nameFeedback" class="invalid-feedback"></div>
                 </div>
             </div>
             <div class="card-footer text-end">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Créer l'unité</button>
+                <button type="submit" class="btn btn-primary" id="submitUnit">
+                    <i class="fas fa-plus"></i> Créer
+                </button>
             </div>
             <?= form_close() ?>
         </div>
     </div>
 
-    <!-- Liste des unités -->
+    <!-- Colonne droite (Tableau) -->
     <div class="col-md-9">
-        <div class="card">
-            <div class="card-header h4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white h4">
                 Liste des unités
             </div>
             <div class="card-body">
-                <table id="unitTable" class="table table-sm table-hover">
+                <table id="unitTable" class="table table-hover table-striped align-middle">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -41,23 +58,26 @@
     </div>
 </div>
 
-<!-- Modal pour éditer une unité -->
-<div class="modal" id="modalUnit" tabindex="-1">
+<!-- Modal édition -->
+<div class="modal fade" id="modalUnit" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-warning">
                 <h5 class="modal-title">Éditer l'unité</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="modalNameInput" placeholder="Nom de l'unité" data-id="">
                     <label for="modalNameInput">Nom de l'unité</label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
-                <button onclick="saveUnit()" type="button" class="btn btn-primary">Sauvegarder</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button id="saveUnitBtn" type="button" class="btn btn-primary">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" id="loaderEdit"></span>
+                    Sauvegarder
+                </button>
             </div>
         </div>
     </div>
@@ -65,6 +85,10 @@
 
 <script>
     $(document).ready(function() {
+        const baseUrl = "<?= base_url(); ?>";
+        const myModal = new bootstrap.Modal('#modalUnit');
+
+        // DataTable
         var table = $('#unitTable').DataTable({
             processing: true,
             serverSide: true,
@@ -79,10 +103,10 @@
                 {
                     data: null,
                     orderable: false,
-                    render: function(data, type, row) {
+                    render: function(data, type, row){
                         return `
                         <div class="btn-group" role="group">
-                            <button onclick="showUnitModal(${row.id},'${row.name}')" class="btn btn-sm btn-warning" title="Modifier">
+                            <button onclick="showModal(${row.id},'${row.name}')" class="btn btn-sm btn-warning" title="Modifier">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button onclick="deleteUnit(${row.id})" class="btn btn-sm btn-danger" title="Supprimer">
@@ -95,69 +119,64 @@
             ],
             order: [[0, 'desc']],
             pageLength: 10,
-            language: { url: '<?= base_url() ?>js/datatable/datatable-2.1.4-fr-FR.json' }
+            language: { url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json' },
         });
 
-        // Actualiser la table
-        window.refreshTable = function() { table.ajax.reload(null, false); };
-    });
+        window.refreshTable = function() {
+            table.ajax.reload(null, false);
+        };
 
-    // Modal bootstrap
-    const myModal = new bootstrap.Modal('#modalUnit');
+        window.showModal = function(id, name){
+            $('#modalNameInput').val(name).data('id', id);
+            myModal.show();
+        };
 
-    function showUnitModal(id, name) {
-        $('#modalNameInput').val(name).data('id', id);
-        myModal.show();
-    }
-
-    function saveUnit() {
-        let name = $('#modalNameInput').val();
-        let id = $('#modalNameInput').data('id');
-        $.ajax({
-            url: '<?= base_url('/admin/unit/update') ?>',
-            type: 'POST',
-            data: { id: id, name: name },
-            success: function(response) {
-                myModal.hide();
-                if (response.success) {
-                    Swal.fire({ title: 'Succès !', text: response.message, icon: 'success', timer: 2000, showConfirmButton: false });
-                    refreshTable();
-                } else {
-                    Swal.fire({ title: 'Erreur !', text: 'Une erreur est survenue', icon: 'error' });
-                    console.log(response.message);
+        $('#saveUnitBtn').click(function(){
+            let id = $('#modalNameInput').data('id');
+            let name = $('#modalNameInput').val();
+            $.ajax({
+                url: '<?= base_url('/admin/unit/update') ?>',
+                type: 'POST',
+                data: { id, name },
+                success: function(response){
+                    myModal.hide();
+                    if(response.success){
+                        Swal.fire({title:'Succès !', text: response.message, icon:'success', timer:2000, showConfirmButton:false});
+                        refreshTable();
+                    } else {
+                        let msg = response.message;
+                        if(typeof msg === 'object') msg = Object.values(msg).flat().join("\n");
+                        Swal.fire({title:'Erreur !', text: msg || 'Une erreur est survenue', icon:'error'});
+                    }
+                },
+                error: function(){
+                    Swal.fire({title:'Erreur !', text:'Problème réseau', icon:'error'});
                 }
-            }
+            });
         });
-    }
 
-    function deleteUnit(id) {
-        Swal.fire({
-            title: 'Êtes-vous sûr ?',
-            text: "Voulez-vous vraiment supprimer cette unité ?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#28a745",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Oui !",
-            cancelButtonText: "Annuler",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '<?= base_url('/admin/unit/delete') ?>',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function(response) {
-                        if (response.success) {
-                            Swal.fire({ title: 'Succès !', text: response.message, icon: 'success', timer: 2000, showConfirmButton: false });
+        window.deleteUnit = function(id){
+            Swal.fire({
+                title: `Êtes-vous sûr ?`,
+                text: `Voulez-vous vraiment supprimer cette unité ?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: `Oui !`,
+                cancelButtonText: "Annuler",
+            }).then((result) => {
+                if(result.isConfirmed){
+                    $.post('<?= base_url('/admin/unit/delete') ?>',{id},function(response){
+                        if(response.success){
+                            Swal.fire({title:'Succès !', text:response.message, icon:'success', timer:2000, showConfirmButton:false});
                             refreshTable();
                         } else {
-                            Swal.fire({ title: 'Erreur !', text: 'Une erreur est survenue', icon: 'error' });
-                            console.log(response.message);
+                            Swal.fire({title:'Erreur !', text:response.message || 'Une erreur est survenue', icon:'error'});
                         }
-                    }
-                });
-            }
-        });
-    }
+                    }).fail(()=>Swal.fire({title:'Erreur !', text:'Problème réseau', icon:'error'}));
+                }
+            });
+        };
+    });
 </script>
-

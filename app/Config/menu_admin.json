@@ -16,16 +16,6 @@
         "url": "/admin/recipe",
         "icon": "<i class=\"nav-icon fas fa-book-open\"></i>"
       },
-      "step": {
-        "title": "Étapes",
-        "url": "/admin/step",
-        "icon": "<i class=\"nav-icon fas fa-list-ol\"></i>"
-      },
-      "option": {
-        "title": "Options",
-        "url": "/admin/option",
-        "icon": "<i class=\"nav-icon fas fa-sliders-h\"></i>"
-      },
       "tag": {
         "title": "Mots-clés",
         "url": "/admin/tag",
@@ -58,11 +48,6 @@
         "title": "Unités",
         "url": "/admin/unit",
         "icon": "<i class=\"nav-icon fas fa-balance-scale\"></i>"
-      },
-      "substitute": {
-        "title": "Substituts",
-        "url": "/admin/substitute",
-        "icon": "<i class=\"nav-icon fas fa-arrows-rotate\"></i>"
       }
     }
   },
