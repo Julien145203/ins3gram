@@ -49,5 +49,9 @@ class StepModel extends Model
             'with_deleted' => false,
         ];
     }
-
+    public function getStepsByIdRecipe($id_recipe) {
+        $this->select('step.*');
+        $this->where('id_recipe',$id_recipe);
+        return $this->findAll();
+    }
 }

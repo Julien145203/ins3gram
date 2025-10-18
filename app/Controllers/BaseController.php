@@ -107,6 +107,7 @@ abstract class BaseController extends Controller
             'template_path' => $template_path,
             'breadcrumb' => $this->breadcrumb,
             'localmenu' => $this->menu,
+            'session_user' => $this->session->get('user'),
         ];
         return
             view($template_path . 'head', $headData)
@@ -196,7 +197,7 @@ abstract class BaseController extends Controller
      */
     public function error($txt)
     {
-        log_message('debug', $txt);
+        log_message('error', $txt);
         $this->messages[] = ['txt' => $txt, 'class' => 'alert-danger', 'toast' => 'error'];
     }
 

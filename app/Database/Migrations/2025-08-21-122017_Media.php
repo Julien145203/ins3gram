@@ -25,7 +25,7 @@ class Media extends Migration
             ],
             'entity_type' => [
                 'type' => 'ENUM',
-                'constraint' => ['user', 'recipe', 'step', 'ingredient', 'brand'],
+                'constraint' => ['user', 'recipe','recipe_mea', 'step', 'ingredient', 'brand'],
                 'default' => 'user',
             ],
             'title' => [

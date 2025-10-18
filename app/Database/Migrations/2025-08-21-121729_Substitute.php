@@ -21,8 +21,7 @@ class Substitute extends Migration
             ]
         ]);
 
-        $this->forge->addKey('id_ingredient_base', true);
-        $this->forge->addKey('id_ingredient_sub', true);
+        $this->forge->addKey(['id_ingredient_base','id_ingredient_sub'], true);
         $this->forge->addForeignKey('id_ingredient_base', 'ingredient','id', 'CASCADE', 'RESTRICT');
         $this->forge->addForeignKey('id_ingredient_sub', 'ingredient','id', 'CASCADE', 'RESTRICT');
         $this->forge->createTable('substitute');

@@ -1,17 +1,17 @@
 <div class="row">
     <div class="col">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3>Liste des ingrédients</h3>
-                <a href="<?= base_url("admin/ingredient/new") ?>" class="btn btn-sm btn-primary">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">Liste des ingrédients</h3>
+                <a href="<?= base_url("admin/ingredient/new") ?>" class="btn btn-sm btn-light">
                     <i class="fas fa-plus"></i> Nouvel ingrédient
                 </a>
             </div>
             <div class="card-body">
-                <table class="table table-sm table-bordered table-striped" id="tableIngredient">
+                <table class="table table-hover table-striped align-middle" id="tableIngredient">
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Image</th>
                         <th>Nom</th>
                         <th>Description</th>
                         <th>Marque</th>
@@ -28,7 +28,7 @@
 
 <script>
     $(document).ready(function() {
-        var baseUrl = "<?= base_url(); ?>";
+        const baseUrl = "<?= base_url(); ?>";
 
         var table = $('#tableIngredient').DataTable({
             processing: true,
@@ -36,12 +36,19 @@
             ajax: {
                 url: baseUrl + 'datatable/searchdatatable',
                 type: 'POST',
-                data: {
-                    model: 'IngredientModel'
-                }
+                data: { model: 'IngredientModel' }
             },
             columns: [
-                { data: 'id' },
+                {
+                    data: 'image',
+                    render: function(data, type, row) {
+                        if (data) {
+                            return `<img src="${baseUrl}/${data}" style="height:40px; width:40px; object-fit:cover; border-radius:5px;">`;
+                        }
+                        return `<span class="text-muted">Aucune</span>`;
+                    },
+                    orderable: false
+                },
                 { data: 'name' },
                 { data: 'description' },
                 { data: 'brand_name' },
@@ -51,34 +58,29 @@
                     orderable: false,
                     render: function(data, type, row) {
                         return `
-                        <div class="btn-group" role="group">
-                            <a href="${baseUrl}admin/ingredient/edit/${row.id}"
-                               class="btn btn-sm btn-warning text-white" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <button onclick="deleteIngredient(${row.id})"
-                               class="btn btn-sm btn-danger text-white" title="Supprimer">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                        `;
+                    <div class="btn-group" role="group">
+                        <a href="${baseUrl}admin/ingredient/edit/${row.id}" class="btn btn-sm btn-warning text-white" title="Modifier">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <button onclick="deleteIngredient(${row.id})" class="btn btn-sm btn-danger text-white" title="Supprimer">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>`;
                     }
                 }
             ],
-            order: [[0, 'desc']],
+            order: [[1, 'asc']], // trier par nom
             pageLength: 10,
             language: {
                 url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
             }
         });
 
-        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false = garder la pagination
+            table.ajax.reload(null, false);
         };
     });
 
-    // Suppression via AJAX (POST)
     function deleteIngredient(id) {
         if (!confirm("Supprimer cet ingrédient ?")) return;
         $.ajax({

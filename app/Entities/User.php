@@ -14,7 +14,7 @@ class User extends Entity
         'first_name'    => null,
         'last_name'     => null,
         'birthdate'     => null,
-        'id_permission' => null,
+        'id_permission' => 2,
         'created_at'    => null,
         'updated_at'    => null,
         'deleted_at'    => null,
@@ -88,5 +88,69 @@ class User extends Entity
         return $permission ? $permission['name'] : 'Utilisateur';
     }
 
+    public function hasFavorite(int $recipeId): bool
+    {
+        $fm = model('FavoriteModel');
+        return $fm->hasFavorite($this->attributes['id'], $recipeId);
+    }
+    /**
+     * Récupère l'avatar de l'utilisateur
+     *
+     * @return Media|null L'instance Media de l'avatar ou null
+     */
+    public function getAvatar(): ?Media
+    {
+        $mediaModel = model('MediaModel');
 
+        $avatar = $mediaModel
+            ->where('entity_type', 'user')
+            ->where('entity_id', $this->id)
+            ->first();
+
+        return $avatar;
+    }
+
+    /**
+     * Retourne l'URL de l'avatar ou une image par défaut
+     *
+     * @param string $default URL de l'image par défaut
+     * @return string URL de l'avatar
+     */
+    public function getAvatarUrl(string $default = 'assets/img/default-avatar.png'): string
+    {
+        $avatar = $this->getAvatar();
+
+        if ($avatar && $avatar->fileExists()) {
+            return $avatar->getUrl();
+        }
+
+        return base_url($default);
+    }
+
+    /**
+     * Vérifie si l'utilisateur a un avatar valide
+     *
+     * @return bool
+     */
+    public function hasAvatar(): bool
+    {
+        $avatar = $this->getAvatar();
+        return $avatar !== null && $avatar->fileExists();
+    }
+
+    /**
+     * Supprime l'avatar de l'utilisateur
+     *
+     * @return bool Succès de la suppression
+     */
+    public function deleteAvatar(): bool
+    {
+        $avatar = $this->getAvatar();
+
+        if ($avatar === null) {
+            return false;
+        }
+
+        return $avatar->delete();
+    }
 }

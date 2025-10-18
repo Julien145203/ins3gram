@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "Chewy";
+    font-weight: 400;
+    font-style: normal;
+    src: url('./font/Chewy-Regular.ttf');
+}
+
+.chewy {
+    font-family: "Chewy", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}

@@ -11,7 +11,7 @@
                 <table id="usersTable" class="table table-sm table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Avatar</th>
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Username</th>
@@ -44,7 +44,17 @@
                 }
             },
             columns: [
-                { data: 'id' },
+                {
+                    data: 'image',
+                    render: function(data, type, row) {
+                        if (data) {
+                            return `<img src="${baseUrl}/${data}" style="height:40px; width:40px; object-fit:cover; border-radius:5px;">`;
+                        }
+                        return `<span class="text-muted">Aucune</span>`;
+                    },
+                    orderable: false,
+                    className: 'text-center'
+                },
                 { data: 'first_name' },
                 { data: 'last_name' },
                 { data: 'username' },
@@ -84,7 +94,7 @@
                     }
                 }
             ],
-            order: [[0, 'desc']],
+            order: [[1, 'asc']], // Tri par prénom par défaut
             pageLength: 10,
             language: {
                 url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
@@ -115,9 +125,7 @@
                 $.ajax({
                     url: "<?= base_url('/admin/user/switch-active'); ?>",
                     type: "POST",
-                    data: {
-                        'id_user': id,
-                    },
+                    data: { 'id_user': id },
                     success: function (response) {
                         console.log(response);
 
