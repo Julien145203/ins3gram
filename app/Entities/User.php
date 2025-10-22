@@ -116,7 +116,7 @@ class User extends Entity
      * @param string $default URL de l'image par défaut
      * @return string URL de l'avatar
      */
-    public function getAvatarUrl(string $default = 'assets/img/default-avatar.png'): string
+    public function getAvatarUrl(string $default = 'assets/img/1.png'): string
     {
         $avatar = $this->getAvatar();
 

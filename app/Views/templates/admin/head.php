@@ -52,6 +52,10 @@
     <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.0/b-3.0.0/b-html5-3.0.0/fh-4.0.0/sp-2.3.0/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.0/b-3.0.0/b-html5-3.0.0/fh-4.0.0/sp-2.3.0/datatables.min.js"></script>
 
+    <!-- LIGHTBOX2 -->
+    <link rel="stylesheet" href="<?= base_url('/css/lightbox.min.css') ?>">
+    <script src="<?= base_url('/js/lightbox.min.js') ?>"></script>
+
     <!-- SWEETALERT 2  -->
     <link href="<?= base_url('/css/sweetalert2.min.css') ?>" rel="stylesheet">
     <script src="<?= base_url('/js/sweetalert2.all.min.js') ?>"></script>

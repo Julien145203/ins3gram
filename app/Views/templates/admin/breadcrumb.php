@@ -35,7 +35,11 @@
              </li>-->
             <li class="nav-item dropdown">
                 <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button" aria-expanded="false" data-coreui-toggle="dropdown">
-                    <i class="icon icon-lg theme-icon-active fa-solid fa-user"></i>
+                    <?php if ($session_user->hasAvatar()) : ?>
+                        <img class="rounded-circle img-thumbnail" src="<?= $session_user->getAvatarUrl(); ?>" width="48" height="48" alt="avatar">
+                    <?php else : ?>
+                        <i class="icon icon-lg theme-icon-active fa-solid fa-user"></i>
+                    <?php endif; ?>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="<?= base_url('/admin/user/'); ?>">Modifier mon compte</a></li>
