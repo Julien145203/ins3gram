@@ -64,6 +64,12 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('datatable', 'CategIng::datatable'); // pour DataTable
         $routes->get('search', 'Ingredient::search');
     });
-    $routes->group('', function ($routes) {}); // media
+    $routes->group('media', function ($routes) {
+        $routes->get('/', 'Media::index');;
+        $routes->get('load', 'Media::load');
+        $routes->post('delete', 'Media::delete');
+        $routes->get('one', 'Media::one');
+        $routes->post('save-meta', 'Media::saveMeta');
+    });
     $routes->group('', function ($routes) {}); // opinion
 });

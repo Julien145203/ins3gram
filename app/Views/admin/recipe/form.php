@@ -110,11 +110,11 @@ endif;
                                                 <div class="d-flex justify-content-center align-items-center"
                                                      style="height: 100%;">
                                                     <a href="" class="btn btn-danger text-light delete-img"
-                                                       data-id="<?= $image['id'] /*$image->id*/?>"><i class="fas fa-trash-alt"></i>
+                                                       data-id="<?= $image->id /*$image['id']*/?>"><i class="fas fa-trash-alt"></i>
                                                         Supprimer</a>
                                                 </div>
                                             </div>
-                                            <img class="img-thumbnail" src="<?= base_url($image['file_path']); /*$imge -> geturl()*/?>">
+                                            <img class="img-thumbnail" src="<?= $image->getUrl(); /*base_url($image['file_path'])*/?>">
                                         </div>
                                     </div>
                                 <?php endforeach;
@@ -315,7 +315,7 @@ endif;
                     <label for="mea" class="form-label">Image Principale</label>
                     <?php if (isset($recipe['mea']) && !empty($recipe['mea'])) : ?>
                         <div class="text-center mb-3 ">
-                            <img class="img-thumbnail" src="<?= base_url($recipe['mea']['file_path']); ?>">
+                            <img class="img-thumbnail" src="<?= $recipe['mea']->getUrl(); ?>">
                         </div>
                     <?php endif; ?>
                     <input id="mea" type="file" name="mea" class="form-control">
