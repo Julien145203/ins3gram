@@ -45,11 +45,6 @@
         "title": "Médias",
         "url": "/admin/media",
         "icon": "<i class=\"nav-icon fas fa-image\"></i>"
-      },
-      "opinion": {
-        "title": "Avis",
-        "url": "/admin/opinion",
-        "icon": "<i class=\"nav-icon fas fa-comment-dots\"></i>"
       }
     }
   },
@@ -73,11 +68,6 @@
         "title": "Favoris",
         "url": "/admin/favorite",
         "icon": "<i class=\"nav-icon fas fa-heart\"></i>"
-      },
-      "chat": {
-        "title": "Chat",
-        "url": "/admin/chat",
-        "icon": "<i class=\"nav-icon fas fa-comments\"></i>"
       }
     }
   }

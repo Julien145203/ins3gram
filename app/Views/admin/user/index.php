@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col">
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
                 <h3 class="card-title">Liste des utilisateurs</h3>
-                <a href="<?= base_url('/admin/user/new') ?>" class="btn btn-primary">
+                <a href="<?= base_url('/admin/user/new') ?>" class="btn btn-sm btn-light">
                     <i class="fas fa-plus"></i> Nouvel Utilisateur
                 </a>
             </div>
@@ -161,3 +161,7 @@
         });
     }
 </script>
+<style>
+    #usersTable, #usersTable th
+    {text-align: center}
+</style>

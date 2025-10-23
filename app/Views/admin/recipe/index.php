@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col">
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
                 <h3>Liste des recettes</h3>
-                <a href="<?= base_url("admin/recipe/new") ?>" class="btn btn-sm btn-primary">
+                <a href="<?= base_url("admin/recipe/new") ?>" class="btn btn-sm btn-light">
                     <i class="fas fa-plus"></i> Nouvelle Recette
                 </a>
             </div>
@@ -12,6 +12,7 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <!--<th>Image</th> TODO:Integrer l'image des recette-->
                         <th>Nom</th>
                         <th>Créateur</th>
                         <th>Date modif.</th>
@@ -159,3 +160,7 @@
         });
     }
 </script>
+<style>
+    #tableRecipe, #tableRecipe th
+    {text-align: center}
+</style>

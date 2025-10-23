@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row d-flex  justify-content-between">
     <!-- Colonne gauche -->
     <div class="col-md-3">
         <!-- Card Total Unités -->
@@ -37,15 +37,16 @@
     </div>
 
     <!-- Colonne droite (Tableau) -->
-    <div class="col-md-9">
+    <div class="col-md-8 ">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-primary text-white h4">
                 Liste des unités
             </div>
-            <div class="card-body">
-                <table id="unitTable" class="table table-hover table-striped align-middle">
+            <div class="card-body  ">
+                <table id="unitTable" class="table table-hover table-striped align-middle table-bordered">
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nom</th>
                         <th>Actions</th>
                     </tr>
@@ -85,8 +86,6 @@
 <script>
     $(document).ready(function() {
         const baseUrl = "<?= base_url(); ?>";
-        const myModal = new bootstrap.Modal('#modalUnit');
-
         // DataTable
         var table = $('#unitTable').DataTable({
             processing: true,
@@ -97,6 +96,7 @@
                 data: { model: 'UnitModel' }
             },
             columns: [
+                { data : 'id' },
                 { data: 'name' },
                 {
                     data: null,
@@ -178,3 +178,8 @@
         };
     });
 </script>
+<style>
+    #unitTable, #unitTable th {
+    text-align : center
+}
+</style>

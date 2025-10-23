@@ -1,8 +1,8 @@
-<div class="row">
+<div class="row ">
     <div class="col-md-3">
         <div class="card">
             <?= form_open('admin/tag/insert') ?>
-            <div class="card-header h4">
+            <div class="card-header h4 bg-primary text-white">
                 Ajouter un nouveau tag
             </div>
             <div class="card-body">
@@ -19,11 +19,11 @@
     </div>
     <div class="col-md-9">
         <div class="card">
-            <div class="card-header h4">
+            <div class="card-header h4 bg-primary text-white">
                 Liste des tags
             </div>
             <div class="card-body">
-                <table id="tagsTable" class="table table-sm table-hover">
+                <table id="tagsTable" class="table table-sm table-hover table-bordered">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -182,3 +182,7 @@
         });
     }
 </script>
+<style>
+    #tagsTable, #tagsTable th
+    { text-align: center; }
+</style>
