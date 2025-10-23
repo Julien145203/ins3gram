@@ -45,7 +45,7 @@
                     data: 'image',
                     render: function(data, type, row) {
                         if (data) {
-                            return `<img src="${baseUrl}/${data}" style="height:40px; width:40px; object-fit:cover; border-radius:5px;">`;
+                            return `<img src="${baseUrl}/${image.data}" style="height:40px; width:40px; object-fit:cover; border-radius:5px;">`;
                         }
                         return `<span class="text-muted">Aucune</span>`;
                     },
@@ -60,11 +60,11 @@
                     orderable: false,
                     render: function(data, type, row) {
                         return `
-                    <div class="btn-group" role="group">
-                        <a href="${baseUrl}admin/ingredient/edit/${row.id}" class="btn btn-sm btn-warning text-white" title="Modifier">
+                    <div class="" role="group">
+                        <a href="${baseUrl}admin/ingredient/edit/${row.id}" class="btn btn-sm btn-warning " title="Modifier">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button onclick="deleteIngredient(${row.id})" class="btn btn-sm btn-danger text-white" title="Supprimer">
+                        <button onclick="deleteIngredient(${row.id})" class="btn btn-sm btn-danger " title="Supprimer">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>`;

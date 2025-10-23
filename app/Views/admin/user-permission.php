@@ -80,7 +80,7 @@
                     orderable: false,
                     render: function(data, type, row) {
                         return `
-                            <div class="btn-group" role="group">
+                            <div class="" role="group">
                                 <button onclick="showModal(${row.id},'${row.name}')"  class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </button>

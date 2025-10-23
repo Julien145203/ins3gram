@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class UserPermission extends BaseController
 {
+    protected $breadcrumb = [['text' => 'Tableau de Bord', 'url' => '/admin/dashboard'],['text'=>"Permission", 'url' => '']];
     public function index()
     {
         helper('form');

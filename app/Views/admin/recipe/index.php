@@ -81,7 +81,7 @@
                     orderable: false,
                     render: function(data, type, row) {
                         return `
-                            <div class="btn-group" role="group">
+                            <div class="" role="group">
                                 <a href="<?= base_url('/admin/recipe/') ?>${row.id}"
                                    class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>

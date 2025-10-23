@@ -10,6 +10,7 @@ use App\Models\SubstituteModel;
 
 class Ingredient extends BaseController
 {
+    protected $breadcrumb = [['text' => 'Tableau de Bord', 'url' => '/admin/dashboard'],['text'=>"Ingrédients", 'url' => '']];
     protected $ingredientModel;
     protected $brandModel;
     protected $categModel;

@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 
 class CategIng extends BaseController
 {
+    protected $breadcrumb = [['text' => 'Tableau de Bord', 'url' => '/admin/dashboard'],['text'=>"Catégories", 'url' => '']];
     public function index()
     {
         helper(['form']);

@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class User extends BaseController
 {
+    protected $breadcrumb = [['text' => 'Tableau de Bord', 'url' => '/admin/dashboard'],['text'=>"Utilisateurs", 'url' => '']];
     public function index()
     {
         return $this->view('/admin/user/index');
@@ -60,7 +61,6 @@ class User extends BaseController
 
         // Gestion de l'avatar
         $avatarFile = $this->request->getFile('avatar');
-        print_r($avatarFile);
 
         if ($avatarFile && $avatarFile->isValid() && !$avatarFile->hasMoved()) {
 
@@ -86,7 +86,6 @@ class User extends BaseController
 
         //Sauvegarde s'il a une modification
         if ($user->hasChanged()) {
-            die();
             if ($userModel->save($user)) {
                 $this->success('Utilisateur mis à jour avec succès.');
             } else {
@@ -159,6 +158,36 @@ class User extends BaseController
         }
     }
 
+    public function deleteAvatar() {
+        $id = $this->request->getPost('id_user');
+        $user = model('UserModel')->find($id);
+        //Si il n'existe pas
+        if(!$user){
+            return $this->response->setJSON(
+                [
+                    'success' => false,
+                    'message' => 'Utilisateur introuvable'
+                ]
+            );
+        }
+
+        if($user->deleteAvatar()){
+            return $this->response->setJSON(
+                [
+                    'success' => true,
+                    'message' => 'Avatar supprimé avec succès',
+                ]
+            );
+        } else {
+            return $this->response->setJSON(
+                [
+                    'success' => false,
+                    'message' => 'Erreur lors de la suppression de l\'avatar',
+                ]
+            );
+        }
+    }
+
     public function search()
     {
         $request = $this->request;
@@ -180,5 +209,38 @@ class User extends BaseController
 
         // Réponse JSON
         return $this->response->setJSON($result);
+    }
+    public function delete()
+    {
+        $id = $this->request->getPost('id');
+        $userModel = model('UserModel');
+
+        // Récupérer l'utilisateur même s'il a un soft delete
+        $user = $userModel->withDeleted()->find($id);
+
+        if (!$user) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Utilisateur introuvable'
+            ]);
+        }
+
+        // Supprimer l'avatar si présent
+        if ($user->hasAvatar()) { // suppose que tu as une méthode hasAvatar() ou check sur $user->image
+            $user->deleteAvatar(); // utilise ta fonction existante dans l'entité pour supprimer le fichier
+        }
+
+        // Supprimer l'utilisateur définitivement
+        if ($userModel->delete($id, true)) { // true pour hard delete
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Utilisateur et avatar supprimés avec succès'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression'
+            ]);
+        }
     }
 }

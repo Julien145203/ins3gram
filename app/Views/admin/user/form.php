@@ -162,6 +162,7 @@
                         <div class="row">
                             <div class="d-flex align-items-center">
                                 <div class="me-3">
+                                    <!--TODO: à modifier-->
                                     <?php if(isset($user) && $user->hasAvatar()): ?>
                                         <img src="<?= isset($user) ? $user->getAvatarUrl() : base_url('assets/img/default-avatar.png') ?>"
                                              alt="Avatar"
@@ -170,6 +171,7 @@
                                         <p class="text-muted small">Aucun avatar</p>
                                     <?php endif; ?>
                                 </div>
+                                <!--TODO: Visualisation de l'avatar + supprimer avatar-->
                                 <div class="flex-grow-1">
                                     <input type="file" name="avatar" id="avatar" class="form-control">
                                 </div>
