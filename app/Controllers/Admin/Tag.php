@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Tag extends BaseController
 {
+    protected $breadcrumb = [['text' => 'Tableau de Bord', 'url' => '/admin/dashboard'],['text'=>"Tag", 'url' => '']];
     public function index()
     {
         helper('form'); // Charge le helper form pour form_open()

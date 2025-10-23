@@ -11,6 +11,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('insert', 'User::insert');
         $routes->post('switch-active','User::switchActive');
         $routes->get('search', 'User::search');
+        $routes->post('delete', 'User::delete');
     });
     $routes->group('user-permission', function ($routes) {
         $routes->get('/', 'UserPermission::index');

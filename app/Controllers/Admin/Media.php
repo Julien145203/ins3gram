@@ -7,9 +7,9 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Media extends BaseController
 {
+    protected $breadcrumb = [['text' => 'Tableau de Bord', 'url' => '/admin/dashboard'],['text'=>"Médias", 'url' => '']];
     public function index()
     {
-
         return $this->view('admin/media');
     }
 

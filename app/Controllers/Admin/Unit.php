@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Unit extends BaseController
 {
+    protected $breadcrumb = [['text' => 'Tableau de Bord', 'url' => '/admin/dashboard'],['text'=>"Unités", 'url' => '']];
     public function index()
     {
         helper(['form']);

@@ -36,24 +36,11 @@
         "icon": "<i class=\"nav-icon fas fa-balance-scale\"></i>"
       },
 
-  "content": {
-    "title": "Contenus",
-    "url": "/admin/media",
-    "icon": "<i class=\"nav-icon fas fa-images\"></i>",
-    "subs": {
       "media": {
         "title": "Médias",
         "url": "/admin/media",
         "icon": "<i class=\"nav-icon fas fa-image\"></i>"
-      }
-    }
-  },
-
-  "users": {
-    "title": "Utilisateurs",
-    "url": "/admin/user",
-    "icon": "<i class=\"nav-icon fas fa-users\"></i>",
-    "subs": {
+      },
       "user": {
         "title": "Comptes",
         "url": "/admin/user",
@@ -69,6 +56,4 @@
         "url": "/admin/favorite",
         "icon": "<i class=\"nav-icon fas fa-heart\"></i>"
       }
-    }
-  }
 }

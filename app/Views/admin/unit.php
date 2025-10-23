@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger text-white" data-bs-dismiss="modal">Annuler</button>
                 <button id="saveUnitBtn" type="button" class="btn btn-primary">
                     <span class="spinner-border spinner-border-sm d-none" role="status" id="loaderEdit"></span>
                     Sauvegarder
@@ -86,24 +86,29 @@
 <script>
     $(document).ready(function() {
         const baseUrl = "<?= base_url(); ?>";
-        // DataTable
+
+        //  Initialisation du modal Bootstrap
+        const myModal = new bootstrap.Modal('#modalUnit')
+
+        // Initialisation de la DataTable
         var table = $('#unitTable').DataTable({
-            processing: true,
-            serverSide: true,
+            processing: true,         // Affiche un indicateur de chargement
+            serverSide: true,         // Active le traitement côté serveur
             ajax: {
-                url: '<?= base_url('datatable/searchdatatable') ?>',
+                url: '<?= base_url('datatable/searchdatatable') ?>', // URL d’appel AJAX
                 type: 'POST',
-                data: { model: 'UnitModel' }
+                data: { model: 'UnitModel' }  // Envoie le modèle à utiliser côté serveur
             },
             columns: [
-                { data : 'id' },
-                { data: 'name' },
+                { data : 'id' }, // Affiche l'id
+                { data: 'name' }, // Affiche le nom
                 {
+                    // Colonne d’actions : boutons édition/suppression
                     data: null,
                     orderable: false,
                     render: function(data, type, row){
                         return `
-                        <div class="btn-group" role="group">
+                        <div class="" role="group">
                             <button onclick="showModal(${row.id},'${row.name}')" class="btn btn-sm btn-warning" title="Modifier">
                                 <i class="fas fa-edit"></i>
                             </button>
@@ -115,44 +120,51 @@
                     }
                 }
             ],
-            order: [[0, 'desc']],
-            pageLength: 10,
-            language: { url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json' },
+            order: [[0, 'desc']],  // Tri par ID décroissant
+            pageLength: 10,        // 10 lignes par page
+            language: { url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json' }, // Traduction FR
         });
 
+        // Fonction pour rafraîchir la table sans recharger la page
         window.refreshTable = function() {
             table.ajax.reload(null, false);
         };
 
+        // Fonction pour afficher le modal avec les données existantes
         window.showModal = function(id, name){
             $('#modalNameInput').val(name).data('id', id);
             myModal.show();
         };
 
+        // Sauvegarde de la modification
         $('#saveUnitBtn').click(function(){
             let id = $('#modalNameInput').data('id');
             let name = $('#modalNameInput').val();
             $.ajax({
-                url: '<?= base_url('/admin/unit/update') ?>',
+                url: '<?= base_url('/admin/unit/update') ?>', // Endpoint de mise à jour
                 type: 'POST',
                 data: { id, name },
                 success: function(response){
                     myModal.hide();
                     if(response.success){
+                        // Message succès
                         Swal.fire({title:'Succès !', text: response.message, icon:'success', timer:2000, showConfirmButton:false});
                         refreshTable();
                     } else {
+                        // Gestion d'erreur côté serveur (validation)
                         let msg = response.message;
                         if(typeof msg === 'object') msg = Object.values(msg).flat().join("\n");
                         Swal.fire({title:'Erreur !', text: msg || 'Une erreur est survenue', icon:'error'});
                     }
                 },
                 error: function(){
+                    // Erreur AJAX (réseau ou serveur)
                     Swal.fire({title:'Erreur !', text:'Problème réseau', icon:'error'});
                 }
             });
         });
 
+        // Suppression d'une unité
         window.deleteUnit = function(id){
             Swal.fire({
                 title: `Êtes-vous sûr ?`,
@@ -178,8 +190,9 @@
         };
     });
 </script>
+
 <style>
     #unitTable, #unitTable th {
-    text-align : center
-}
+        text-align : center
+    }
 </style>

@@ -120,9 +120,14 @@ class UserModel extends Model
                     'table' => 'user_permission',
                     'condition' => 'user.id_permission = user_permission.id',
                     'type' => 'left'
-                ]
+                ],
+                [
+                'table' => 'media',
+                'condition' => 'media.entity_type = "user" AND media.entity_id = user.id',
+                'type' => 'left'
+            ]
             ],
-            'select' => 'user.*, user_permission.name as permission_name',
+            'select' => 'user.*, user_permission.name as permission_name, media.file_path as image',
             'with_deleted' => true
         ];
     }
