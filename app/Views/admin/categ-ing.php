@@ -1,8 +1,8 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 ">
         <div class="card">
             <?= form_open('admin/category-ingredient/insert') ?>
-            <div class="card-header h4">Créer une catégorie d'ingrédients</div>
+            <div class="card-header h4 bg-primary text-white">Créer une catégorie d'ingrédients</div>
             <div class="card-body">
                 <div class="form-floating mb-3">
                     <input id="name" class="form-control" placeholder="Nom de la catégorie" type="text" name="name" required>
@@ -29,9 +29,9 @@
 
     <div class="col-md-9">
         <div class="card">
-            <div class="card-header h4">Liste des catégories</div>
+            <div class="card-header h4 bg-primary text-white">Liste des catégories</div>
             <div class="card-body">
-                <table id="categIngTable" class="table table-sm table-hover">
+                <table id="categIngTable" class="table table-sm table-hover table-bordered">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -152,3 +152,7 @@
         });
     }
 </script>
+<style>
+    #categIngTable, #categIngTable th
+    {text-align: center}
+</style>

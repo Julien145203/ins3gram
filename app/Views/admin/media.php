@@ -1,7 +1,7 @@
 <div class="row mb-3">
     <div class="col">
-        <div class="card">
-            <div class="card-header"><span class="card-title h3">Medias</span></div>
+        <div class="card bg-primary text-white">
+            <div class="card-header"><span class="card-title h4 ">Medias</span></div>
         </div>
     </div>
 </div>
@@ -13,7 +13,7 @@
                     <?php
                     $entity_types = ['user' => "Utilisateurs", 'recipe' => "Recettes", 'ingredient' => 'Ingrédients', 'brand' => "Marques"];
                     ?>
-                    <label for="entity-filter" class="form-label me-3">Filtrer par</label>
+                    <label for="entity-filter" class="form-label ">Filtrer par :</label>
                     <select class="form-select" id="entity-filter" name="entity-filter" onchange="applyFilter(this.value)">
                         <option value="all" selected>Aucun filtre</option>
                         <?php foreach($entity_types as $entity_type => $entity_name) : ?>
@@ -272,4 +272,18 @@
         height: 200px;
         margin: 0 auto;
         display: block;
+    }
+    #filtre .d-flex {
+        align-items: center; /* aligne verticalement label et select */
+        gap: 10px; /* petit espace entre les deux */
+    }
+
+    #filtre .form-label {
+        margin-bottom: 0; /* empêche le label de forcer un retour à la ligne */
+        display: flex;
+        align-items: center;
+    }
+    #entity-filter {
+        flex: 1; /* prend toute la place disponible */
+        min-width: 250px; /* largeur minimale, ajuste selon ton design */
     }

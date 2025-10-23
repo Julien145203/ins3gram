@@ -51,6 +51,7 @@
                 <table id="brandTable" class="table table-hover table-striped align-middle">
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th style="width:80px;">Image</th> <!--#new -->
                         <th>Nom</th>
                         <th>Actions</th>
@@ -130,6 +131,7 @@
                 data: { model: 'BrandModel' } // Indique le modèle côté serveur
             },
             columns: [
+                {data : 'id' },
                 //Affichage image ok
                 {
                     data: null,
@@ -140,8 +142,8 @@
                         } else {
                             return `<span class="text-muted">Pas d'image</span>`;
                         }
-                }
-                    },
+                    }
+                },
                 // Nom
                 { data: 'name' },
                 // Boutons actions : modifier et supprimer + encodeURIComponent pour éviter problèmes d'apostrophes
@@ -149,9 +151,9 @@
                     data: null,
                     orderable: false,
                     render: function(data, type, row) {
-                    // encodeURIComponent supprimé pour compatibilité modal
+                        // encodeURIComponent supprimé pour compatibilité modal
                         return `
-                    <div class="btn-group" role="group">
+                    <div class="" role="group">
                         <button class="btn btn-sm btn-warning btn-edit"
                                 data-id="${row.id}"
                                 data-name="${row.name}"
@@ -159,7 +161,8 @@
                                 title="Modifier">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="btn btn-sm btn-danger btn-delete"
+
+                        <button class="btn btn-sm btn-danger btn-delete "
                                 data-id="${row.id}"
                                 title="Supprimer">
                             <i class="fas fa-trash-alt"></i>
@@ -170,7 +173,7 @@
             ],
             order: [[0,'desc']],
             pageLength: 10,
-        language: { url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json' }
+            language: { url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json' }
         });
 
         // ----- Rafraîchir la table -----
@@ -178,28 +181,28 @@
             table.ajax.reload(null,false); // false pour garder la pagination
         };
 
-    // ----- Ouvrir modal avec data-attributes -----
-    const myModal = new bootstrap.Modal('#modalBrand'); //var?
-    $(document).on('click', '.btn-edit', function() {
-        const id = $(this).data('id');
-        const name = $(this).data('name');
-        const image = $(this).data('image');
+        // ----- Ouvrir modal avec data-attributes -----
+        const myModal = new bootstrap.Modal('#modalBrand'); //var?
+        $(document).on('click', '.btn-edit', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const image = $(this).data('image');
 
-        $('#modalNameInput').val(name).data('id', id);// Remplit le nom +  Stocke l'ID
-        $('#modalImageInput').val('');
-        if(image) {// Avec et sans prévisualisation image
+            $('#modalNameInput').val(name).data('id', id);// Remplit le nom +  Stocke l'ID
+            $('#modalImageInput').val('');
+            if(image) {// Avec et sans prévisualisation image
                 $('#modalPreviewImage').attr('src', baseUrl+'/'+image).show();
-        } else {
-        $('#modalPreviewImage').attr('src', '#').hide();
-        }
-        myModal.show();
-    });
+            } else {
+                $('#modalPreviewImage').attr('src', '#').hide();
+            }
+            myModal.show();
+        });
 
         // ----- Sauvegarder modal -----
-    $('#saveBrandBtn').on('click', function() {
-        const id = $('#modalNameInput').data('id');
-        const name = $('#modalNameInput').val();
-        const file = $('#modalImageInput')[0].files[0];
+        $('#saveBrandBtn').on('click', function() {
+            const id = $('#modalNameInput').data('id');
+            const name = $('#modalNameInput').val();
+            const file = $('#modalImageInput')[0].files[0];
 
             const formData = new FormData();          // Crée conteneur - Peut d'option FileReader/ <iframe> cacher avec form natif
             formData.append('id', id);                // Ajoute ID
@@ -208,14 +211,14 @@
 
             $('#loaderEdit').removeClass('d-none'); // Affiche loader
 
-        $.ajax({
+            $.ajax({
                 url: '<?= base_url('/admin/brand/update') ?>',
                 type: 'POST',
                 data: formData, // Doit passer toutes les infos en FormData
                 processData:false, // Necessaire pour FormData
                 contentType:false, // Necessaire pour FormData
                 success: function(response){
-                $('#loaderEdit').addClass('d-none'); // Cache loader
+                    $('#loaderEdit').addClass('d-none'); // Cache loader
                     myModal.hide();
                     if(response.success){
                         Swal.fire({
@@ -228,24 +231,24 @@
                         // Actualiser la table
                         refreshTable();
                     } else {
-                    console.log(response.message); //let msg = typeof response.message === 'object' ? Object.values(response.message).flat().join("\n") : response.message; Pour une gestion erreur plus precise
+                        console.log(response.message); //let msg = typeof response.message === 'object' ? Object.values(response.message).flat().join("\n") : response.message; Pour une gestion erreur plus precise
                         Swal.fire({
                             title:'Erreur !',
                             text:'Une erreur est survenue', // text:msg||'Une erreur est survenue', affiche plus d'information dans la gestion des erreurs
                             icon:'error'
                         });
                     }
-        },
-        error: function(){
-            $('#loaderEdit').addClass('d-none');
-            Swal.fire({ title:'Erreur !', text:'Problème réseau', icon:'error' });
+                },
+                error: function(){
+                    $('#loaderEdit').addClass('d-none');
+                    Swal.fire({ title:'Erreur !', text:'Problème réseau', icon:'error' });
                 }
             });
-    });
+        });
 
         // ----- Supprimer marque -----
-    $(document).on('click', '.btn-delete', function() {
-        const id = $(this).data('id');
+        $(document).on('click', '.btn-delete', function() {
+            const id = $(this).data('id');
             Swal.fire({
                 title: 'Êtes-vous sûr ?',
                 text: 'Voulez-vous vraiment supprimer cette marque ?',
@@ -282,15 +285,19 @@
                             }
                         },
                         error: function() {
-                        Swal.fire({ title:'Erreur !',
-                            text:'Problème réseau',
-                            icon:'error'
-                        });
-                    }
+                            Swal.fire({ title:'Erreur !',
+                                text:'Problème réseau',
+                                icon:'error'
                             });
                         }
-    });
-    });
-
+                    });
+                }
+            });
         });
+
+    });
 </script>
+<style>
+    #brandTable, #brandTable th
+    {text-align: center}
+</style>

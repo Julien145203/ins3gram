@@ -2,11 +2,11 @@
     <div class="col-md-3">
         <div class="card">
             <?= form_open('admin/user-permission/insert') ?>
-            <div class="card-header h4">
+            <div class="card-header h4 bg-primary text-white">
                 Créer une permission
             </div>
             <div class="card-body">
-                <div class="form-floating">
+                <div class="form-floating ">
                     <input id="name" class="form-control" placeholder="Nom de la permission" type="text" name="name" required>
                     <label for="name">Nom de la permission</label>
                 </div>
@@ -19,11 +19,11 @@
     </div>
     <div class="col-md-9">
         <div class="card">
-            <div class="card-header h4">
+            <div class="card-header h4 bg-primary text-white">
                 Liste des permissions
             </div>
             <div class="card-body">
-                <table id="userPermissionsTable" class="table table-sm table-hover">
+                <table id="userPermissionsTable" class="table table-sm table-hover table-bordered">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -122,6 +122,7 @@
             data: {
                 name: name,
                 id: id,
+
             },
             success: function(response) {
                 myModal.hide();
@@ -190,3 +191,8 @@
         });
     }
 </script>
+<style>
+    #userPermissionsTable, #userPermissionsTable th {
+        text-align: center;
+    }
+</style>

@@ -16,7 +16,7 @@ class BrandModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name'];
+    protected $allowedFields    = ['name', 'image'];
     protected $useTimestamps    = false;
 
     protected $validationRules = [
@@ -52,30 +52,5 @@ class BrandModel extends Model
     protected $select2DisplayField     = 'name';
     protected $select2AdditionalFields = [];
 
-// -------------------- Sauvegarde marque (insert ou update) avec validation dynamique --------------------
-    public function saveBrand(array $data, $id = null)
-    {
-        // Validation dynamique pour le name unique
-        $rules = [
-            'name' => 'required|max_length[255]',
-        ];
-
-        if ($id) {
-            // Si on update, on ajoute la règle unique en excluant l'ID courant
-            $rules['name'] .= "|is_unique[brand.name,id,{$id}]";
-        } else {
-            // Si création, unique standard
-            $rules['name'] .= "|is_unique[brand.name]";
-        }
-
-        $this->setValidationRules($rules);
-
-        // Retourne true ou false selon succès, accessible via $this->errors() si besoin
-        if ($id) {
-            return $this->update($id, $data);
-        } else {
-            return $this->insert($data);
-        }
-    }
 
 }

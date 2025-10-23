@@ -8,9 +8,10 @@
                 </a>
             </div>
             <div class="card-body">
-                <table class="table table-hover table-striped align-middle" id="tableIngredient">
+                <table class="table table-hover table-striped align-middle table-bordered" id="tableIngredient">
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Image</th>
                         <th>Nom</th>
                         <th>Description</th>
@@ -39,6 +40,7 @@
                 data: { model: 'IngredientModel' }
             },
             columns: [
+                {data: 'id'},
                 {
                     data: 'image',
                     render: function(data, type, row) {
@@ -96,3 +98,7 @@
         });
     }
 </script>
+<style>
+    #tableIngredient, #tableIngredient th
+    {text-align: center}
+</style>
