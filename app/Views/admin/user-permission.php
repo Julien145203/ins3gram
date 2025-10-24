@@ -1,4 +1,5 @@
 <div class="row">
+    <!--TODO: Gestion de supression unitaire basculer sur permission default (user) et gestion exeption user et admin-->
     <div class="col-md-3">
         <div class="card">
             <?= form_open('admin/user-permission/insert') ?>

@@ -63,13 +63,11 @@
         </div>
     </div>
 </div>
-
-<!-- Modal Bootstrap pour l’édition d’une catégorie TODO: couleur-->
 <div class="modal" id="modalCategIng" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- En-tête du modal -->
-            <div class="modal-header">
+            <div class="modal-header bg-warning">
                 <h5 class="modal-title">Éditer la catégorie</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>

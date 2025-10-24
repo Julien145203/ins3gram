@@ -48,7 +48,7 @@
                 Liste des marques
             </div>
             <div class="card-body">
-                <table id="brandTable" class="table table-hover table-striped align-middle">
+                <table id="brandTable" class="table table-hover table-bordered table-striped  align-middle">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -184,9 +184,9 @@
         // ----- Ouvrir modal avec data-attributes -----
         const myModal = new bootstrap.Modal('#modalBrand'); //var?
         $(document).on('click', '.btn-edit', function() {
-            const id = $(this).data('id');
-            const name = $(this).data('name');
-            const image = $(this).data('image');
+            let id = $(this).data('id');
+            let name = $(this).data('name');
+            let image = $(this).data('image');
 
             $('#modalNameInput').val(name).data('id', id);// Remplit le nom +  Stocke l'ID
             $('#modalImageInput').val('');
@@ -202,7 +202,7 @@
         $('#saveBrandBtn').on('click', function() {
             const id = $('#modalNameInput').data('id');
             const name = $('#modalNameInput').val();
-            const file = $('#modalImageInput')[0].files[0];
+            const file = $('#modalImageInput')[0]?.files[0];
 
             const formData = new FormData();          // Crée conteneur - Peut d'option FileReader/ <iframe> cacher avec form natif
             formData.append('id', id);                // Ajoute ID
@@ -299,5 +299,6 @@
 </script>
 <style>
     #brandTable, #brandTable th
-    {text-align: center}
+    {text-align: center
+    }
 </style>
