@@ -181,12 +181,13 @@ class RecipeModel extends Model
     {
         return [
             'searchable_fields' => [
-                'name',
+                'recipe.name',
             ],
             'joins' => [
-                ['table' => 'user', 'type' => 'LEFT', 'condition' => 'user.id = recipe.id_user']
+                ['table' => 'user', 'type' => 'LEFT', 'condition' => 'user.id = recipe.id_user'],
+                ['table' => 'media', 'type' => 'LEFT', 'condition' => "media.entity_id = recipe.id AND media.entity_type = 'recipe_mea'"],
             ],
-            'select' => 'recipe.*, user.username as creator',
+            'select' => 'recipe.*, user.username as creator, media.file_path as mea_path',
             'with_deleted' => true
         ];
     }

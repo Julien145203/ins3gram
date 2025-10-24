@@ -50,10 +50,5 @@
         "title": "Rôles & Permissions",
         "url": "/admin/user-permission",
         "icon": "<i class=\"nav-icon fas fa-user-shield\"></i>"
-      },
-      "favorite": {
-        "title": "Favoris",
-        "url": "/admin/favorite",
-        "icon": "<i class=\"nav-icon fas fa-heart\"></i>"
       }
 }

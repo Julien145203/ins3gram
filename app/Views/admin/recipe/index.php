@@ -8,11 +8,11 @@
                 </a>
             </div>
             <div class="card-body">
-                <table class="table table-sm table-bordered table-striped" id="tableRecipe">
+                <table class="table table-sm table-bordered table-striped align-middle" id="tableRecipe">
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <!--<th>Image</th> TODO:Integrer l'image des recette-->
+                        <th>Image</th>
                         <th>Nom</th>
                         <th>Créateur</th>
                         <th>Date modif.</th>
@@ -43,6 +43,23 @@
             columns: [
                 { data: 'id' },
                 {
+                    data: 'mea_path',
+                    orderable: false,
+                    render: function(data, type, row) {
+                        // Si la recette a une image MEA, on l'utilise
+                        let imgUrl = data
+                            ? `${baseUrl}/${data}`
+                            : `${baseUrl}/assets/img/no-img.png`;
+
+                        return `
+                        <div class="d-flex justify-content-center">
+                            <img src="${imgUrl}"
+                                style="height:50px; width:70px; border-radius:5px; object-fit:cover;">
+                        </div>`;
+                    }
+                },
+
+                {
                     data: 'name',
                     render : function(data, type, row) {
                         return `<a class="link-underline link-underline-opacity-0"
@@ -62,18 +79,22 @@
                 {
                     data: 'deleted_at',
                     render: function(data, type, row) {
-                        const isActive = (data === 'active' || row.deleted_at === null);
+                        const isActive = (row.deleted_at === null);
+                        const badgeClass = isActive ? 'badge bg-success text-uppercase fw-bold px-2 py-1'
+                            : 'badge bg-danger text-uppercase fw-bold px-2 py-1';
+                        const badgeText = isActive ? 'Active' : 'Inactive';
+
                         return `
+                        <div class="d-flex justify-content-center align-items-center gap-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox"
+                                <input class="form-check-input border custom-switch "  style="width: 1.4cm ; height:0.6cm" type="checkbox"
                                     id="switch-${row.id}"
                                     ${isActive ? 'checked' : ''}
                                     onchange="toggleRecipeStatus(${row.id}, this.checked ? 'activate' : 'deactivate')">
-                                <label class="form-check-label" for="switch-${row.id}">
-                                    ${isActive ? 'Active' : 'Inactive'}
-                                </label>
                             </div>
-                        `;
+                            <span class="${badgeClass}">${badgeText}</span>
+                        </div>
+                    `;
                     }
                 },
                 {
@@ -81,17 +102,21 @@
                     orderable: false,
                     render: function(data, type, row) {
                         return `
-                            <div class="" role="group">
-                                <a href="<?= base_url('/admin/recipe/') ?>${row.id}"
-                                   class="btn btn-sm btn-warning" title="Modifier">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="<?= base_url('/recette/') ?>${row.slug}"
-                                    class="btn btn-sm btn-primary" target="_blank" title="Voir la recette">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </div>
-                        `;
+            <div class="" role="group">
+                <a href="<?= base_url('/admin/recipe/') ?>${row.id}"
+                   class="btn btn-sm btn-warning" title="Modifier">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="<?= base_url('/recette/') ?>${row.slug}"
+                   class="btn btn-sm btn-primary" target="_blank" title="Voir la recette">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <button class="btn btn-sm btn-danger" title="Supprimer définitivement"
+                    onclick="deleteRecipe(${row.id})">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `;
                     }
                 }
             ],
@@ -159,8 +184,56 @@
             }
         });
     }
+
+    function deleteRecipe(id) {
+        Swal.fire({
+            title: `Supprimer définitivement ?`,
+            text: `Cette action supprimera la recette et son image de manière permanente !`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: `Oui, supprimer !`,
+            cancelButtonText: "Annuler",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "<?= base_url('/admin/recipe/hard-delete'); ?>",
+                    type: "POST",
+                    data: { 'id_recipe': id },
+                    success: function(response) {
+                        if(response.success) {
+                            Swal.fire({
+                                title: 'Supprimé !',
+                                text: response.message,
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            refreshTable();
+                        } else {
+                            Swal.fire({
+                                title: 'Erreur !',
+                                text: response.message || 'Une erreur est survenue',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Erreur !',
+                            text: 'Erreur de communication avec le serveur',
+                            icon: 'error'
+                        });
+                    }
+                });
+            }
+        });
+    }
 </script>
+
 <style>
-    #tableRecipe, #tableRecipe th
-    {text-align: center}
+    #tableRecipe, #tableRecipe th { text-align: center; }
+    .custom-switch:checked {
+    }
 </style>

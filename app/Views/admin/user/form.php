@@ -3,30 +3,60 @@
         <div class="card">
             <div class="card-header">
                 <?php if(isset($user)) : ?>
-                    <!-- Si l'utilisateur existe déjà : on affiche "Modification" -->
-                    Modification de <?= esc($user->username); ?>
+                    <h2>Modification de <?= esc($user->username); ?></h2>
                 <?php else : ?>
-                    <!-- Sinon : on affiche "Création d'un utilisateur" -->
-                    Création d'un utilisateur
+                    <h2>Création d'un utilisateur</h2>
                 <?php endif;?>
             </div>
+
             <?php
-            // Ouverture du formulaire selon le cas : update ou create
             if(isset($user)):
                 echo form_open_multipart('admin/user/update', ['class' => 'needs-validation', 'novalidate' => true]); ?>
-                <!-- Champ caché pour stocker l'ID de l'utilisateur lors de la modification -->
                 <input type="hidden" name="id" value="<?= $user->id ?>">
             <?php
             else:
                 echo form_open_multipart('admin/user/insert', ['class' => 'needs-validation', 'novalidate' => true]);
             endif;
             ?>
+
             <div class="card-body">
+                <!-- Avatar + upload -->
+                <div class="row mb-3">
+                    <div class="col-12 text-center">
+                        <div class="d-inline-block position-relative" id="avatar">
+                            <?php if(isset($user) && $user->hasAvatar()): ?>
+                                <div id="avatar-hover" class="rounded-circle h-100 w-100 position-absolute"
+                                     style="background-color: rgba(0, 0, 0, 0.2); display:none; top:0; left:0;">
+                                    <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                                        <i class="fas fa-trash-can fa-2xl text-danger"></i>
+                                    </div>
+                                </div>
+                                <img src="<?= $user->getAvatarUrl() ?>"
+                                     <!--TODO: revoir taille image-->
+                                     alt="Avatar"
+                                     class="rounded-circle img-thumbnail"
+                                     style="width: 150px; height: 150px; object-fit: cover;">
+                                <p class="text-muted small mt-2">Avatar actuel</p>
+                            <?php else: ?>
+                                <img src="<?= base_url('assets/img/avatars/1.jpg') ?>"
+                                     alt="Avatar"
+                                     class="rounded-circle img-thumbnail"
+                                     style="width: 150px; height: 150px; object-fit: cover;">
+                                <p class="text-muted small mt-2">Aucun avatar <br> (image par défaut)</p>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Champ pour uploader un nouvel avatar -->
+                        <div class="mt-3 w-50 mx-auto">
+                            <input type="file" name="avatar" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Champs utilisateur -->
                 <div class="row g-3">
-                    <!-- Prénom et Nom sur la même ligne -->
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <!-- Champ pour le prénom -->
                             <input type="text"
                                    name="first_name"
                                    id="first_name"
@@ -34,15 +64,14 @@
                                    placeholder="Prénom"
                                    value="<?= isset($user) ? esc($user->first_name) : set_value('first_name') ?>">
                             <label for="first_name">Prénom</label>
-                            <!-- Affichage d'une éventuelle erreur de validation -->
                             <div class="invalid-feedback">
                                 <?= validation_show_error('first_name') ?>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <!-- Champ pour le nom -->
                             <input type="text"
                                    name="last_name"
                                    id="last_name"
@@ -56,10 +85,8 @@
                         </div>
                     </div>
 
-                    <!-- Nom d'utilisateur -->
                     <div class="col-12">
                         <div class="form-floating">
-                            <!-- Champ obligatoire pour le nom d'utilisateur -->
                             <input type="text"
                                    name="username"
                                    id="username"
@@ -74,10 +101,8 @@
                         </div>
                     </div>
 
-                    <!-- Email -->
                     <div class="col-12">
                         <div class="form-floating">
-                            <!-- Champ obligatoire pour l'email -->
                             <input type="email"
                                    name="email"
                                    id="email"
@@ -92,10 +117,8 @@
                         </div>
                     </div>
 
-                    <!-- Mot de passe -->
                     <div class="col-12">
                         <div class="form-floating">
-                            <!-- Champ mot de passe : obligatoire si création, optionnel si modification -->
                             <input type="password"
                                    name="password"
                                    id="password"
@@ -113,17 +136,12 @@
                             <div class="invalid-feedback">
                                 <?= validation_show_error('password') ?>
                             </div>
-                            <div class="form-text">
-                                <!-- Indication pour l'utilisateur -->
-                                Le mot de passe doit contenir au moins 8 caractères.
-                            </div>
+                            <div class="form-text">Le mot de passe doit contenir au moins 8 caractères.</div>
                         </div>
                     </div>
 
-                    <!-- Date de naissance et Permissions sur la même ligne -->
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <!-- Champ obligatoire pour la date de naissance -->
                             <input type="date"
                                    name="birthdate"
                                    id="birthdate"
@@ -137,14 +155,13 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <!-- Liste déroulante des rôles disponibles -->
                             <select name="id_permission" id="id_permission" class="form-select" required>
-                                <option disabled >Choisir un rôle...</option>
+                                <option disabled>Choisir un rôle...</option>
                                 <?php if(isset($permissions) && is_array($permissions)) : ?>
                                     <?php foreach($permissions as $permission) : ?>
-                                        <!-- Si l'utilisateur a déjà un rôle, on le sélectionne -->
                                         <option value="<?= $permission['id'] ?>"
                                             <?= (isset($user) && $user->id_permission == $permission['id']) || set_value('id_permission') == $permission['id'] ? 'selected' : '' ?>>
                                             <?= esc($permission['name']) ?>
@@ -158,41 +175,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="row">
-                            <div class="d-flex align-items-center">
-                                <div class="me-3">
-                                    <!--TODO: à modifier-->
-                                    <?php if(isset($user) && $user->hasAvatar()): ?>
-                                        <img src="<?= isset($user) ? $user->getAvatarUrl() : base_url('assets/img/default-avatar.png') ?>"
-                                             alt="Avatar"
-                                             class="rounded-circle img-thumbnail" style="max-width: 100px; height: auto;">
-                                    <?php else: ?>
-                                        <p class="text-muted small">Aucun avatar</p>
-                                    <?php endif; ?>
-                                </div>
-                                <!--TODO: Visualisation de l'avatar + supprimer avatar-->
-                                <div class="flex-grow-1">
-                                    <input type="file" name="avatar" id="avatar" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+
             <div class="card-footer d-flex justify-content-between">
-                <!-- Bouton de retour -->
                 <a href="<?= base_url('admin/user'); ?>" class="btn btn-secondary">
                     <i class="fas fa-arrow-left me-1"></i>Retour
                 </a>
                 <div>
                     <?php if(isset($user)) : ?>
-                        <!-- Si modification : bouton "Mettre à jour" -->
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save me-1"></i>Mettre à jour
                         </button>
                     <?php else : ?>
-                        <!-- Si création : bouton pour réinitialiser + bouton pour créer -->
                         <button type="reset" class="btn btn-outline-secondary me-2">
                             <i class="fas fa-undo me-1"></i>Réinitialiser
                         </button>
@@ -202,53 +197,104 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <?php
-            // Fermeture du formulaire
-            echo form_close();
-            ?>
+
+            <?php echo form_close(); ?>
         </div>
     </div>
 </div>
 
 <script>
-    // Ici, on ouvre une "fonction auto-exécutée".
-    // Cela veut dire que ce bloc de code va s'exécuter tout seul dès que la page est chargée.
-    (function() {
-        'use strict';
-        // "use strict" demande à JavaScript d’être plus strict.
-        // Par exemple, il interdit certaines mauvaises pratiques de code.
-        // C’est une bonne habitude pour éviter des erreurs.
+    $(document).ready(function() {
+        var base_url = '<?= base_url() ?>';
 
-        // On sélectionne TOUS les formulaires qui ont la classe "needs-validation"
-        // (c’est une classe Bootstrap utilisée pour la mise en forme et la validation).
-        var forms = document.querySelectorAll('.needs-validation');
-
-        // Comme "forms" contient une liste (plusieurs formulaires),
-        // on transforme cette liste en tableau avec "Array.prototype.slice.call(forms)".
-        // Ça permet de pouvoir faire "forEach" dessus (boucle).
-        Array.prototype.slice.call(forms).forEach(function(form) {
-
-            // Pour chaque formulaire trouvé, on ajoute un "écouteur d’événement".
-            // Ici, on écoute quand le formulaire veut être envoyé ("submit").
-            form.addEventListener('submit', function(event) {
-
-                // Si le formulaire n’est PAS valide...
-                // (par exemple : un champ "required" est vide)
-                if (!form.checkValidity()) {
-
-                    // ... alors on empêche l’envoi du formulaire au serveur
-                    event.preventDefault();
-
-                    // ... et on arrête aussi d’autres actions liées à l’événement
-                    event.stopPropagation();
-                }
-
-                // Dans tous les cas, on ajoute la classe "was-validated" au formulaire.
-                // C’est une classe CSS de Bootstrap qui va afficher les messages d’erreurs
-                // et mettre en rouge les champs invalides.
-                form.classList.add('was-validated');
-
-            }, false); // "false" signifie qu’on utilise le mode "bulle" par défaut pour l’événement
+        $('#avatar').on('mouseenter', function() {
+            $('#avatar-hover').show();
         });
-    })();
+        $('#avatar').on('mouseleave', function() {
+            $('#avatar-hover').hide();
+        });
+
+        $('#avatar-hover .fa-trash-can').on('click', function(){
+            Swal.fire({
+                title: "Supprimer l'avatar ?",
+                text: "Il n'y aura pas de retour possible !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "var(--cui-primary)",
+                cancelButtonColor: "var(--cui-danger)",
+                confirmButtonText: "Oui, supprime !",
+                cancelButtonText: "Annuler"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url : base_url + "admin/user/delete-avatar",
+                        type : "POST",
+                        data : {
+                            'id_user' : '<?= isset($user) ? $user->id : '' ?>'
+                        },
+                        success: function(response) {
+                            if(response.success) {
+                                Swal.fire({
+                                    icon : 'success',
+                                    title : 'Avatar supprimé !'
+                                });
+                                $('#avatar').html('<p class="text-muted small">Aucun avatar</p>');
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Erreur',
+                                    text: response.message
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Prévisualisation de l'image avant envoi
+        $('input[name="avatar"]').on('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgHtml = `
+                <div class="d-inline-block position-relative">
+                    <img src="${e.target.result}"
+                         alt="Avatar preview"
+                         class="rounded-circle img-thumbnail"
+                         style="width:150px;height:150px;object-fit:cover;">
+                    <p class="text-muted small mt-2">Votre avatar actuel <br>(non encore enregistré)</p>
+                </div>`;
+                    $('#avatar').html(imgHtml);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
 </script>
+
+<style>
+    #avatar {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        position: relative;
+    }
+    #avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    #avatar-hover {
+        cursor: pointer;
+        border-radius: 50%;
+    }
+    .fa-trash-can {
+        cursor: pointer;
+    }
+</style>
