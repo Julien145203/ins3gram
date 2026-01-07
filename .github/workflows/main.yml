@@ -1,0 +1,103 @@
+name: Release Workflow
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      branch_info:
+        description: 'Le workflow s exécutera sur la branche sélectionnée'
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Display deployment info
+        run: |
+          echo "Déploiement depuis la branche : ${{ github.ref_name }}"
+          echo "Commit : ${{ github.sha }}"
+          echo "Déclenché par : ${{ github.actor }}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: |
+          cat > .env << 'EOF'
+          CI_ENVIRONMENT=production
+          
+          # Database
+          database.default.hostname=${{ secrets.DB_HOST }}
+          database.default.database=${{ secrets.DB_NAME }}
+          database.default.username=${{ secrets.DB_USERNAME }}
+          database.default.password=${{ secrets.DB_PASSWORD }}
+          database.default.DBDriver=MySQLi
+          
+          # App
+          app.baseURL=${{ secrets.BASE_URL }}
+          EOF
+          echo "✓ .env file created"
+
+      - name: Modify App.php
+        run: |
+          sed -i "s|\$baseURL = '.*';|\$baseURL = '${{ secrets.BASE_URL }}';|g" app/Config/App.php
+          echo "✓ App.php modified"
+
+      - name: Create .htaccess for root directory
+        run: |
+          cat > .htaccess << 'EOF'
+          <IfModule mod_rewrite.c>
+              RewriteEngine On
+              RewriteRule ^(.*)$ public/$1 [L]
+          </IfModule>
+          
+          <FilesMatch "^\.|composer\.(json|lock)|\.env">
+              Require all denied
+          </FilesMatch>
+          EOF
+
+      - name: Create .htaccess for public directory
+        run: |
+          cat > public/.htaccess << 'EOF'
+          <IfModule mod_rewrite.c>
+              Options +FollowSymlinks
+              RewriteEngine On
+              RewriteBase ${{ secrets.URL_PREFIX }}/public
+          
+              RewriteCond %{REQUEST_FILENAME} !-d
+              RewriteCond %{REQUEST_URI} (.+)/$
+              RewriteRule ^ %1 [L,R=301]
+          
+              RewriteCond %{REQUEST_FILENAME} !-f
+              RewriteCond %{REQUEST_FILENAME} !-d
+              RewriteRule ^([\s\S]*)$ index.php/$1 [L,NC,QSA]
+          
+              RewriteCond %{HTTP:Authorization} .
+              RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+          </IfModule>
+          
+          <IfModule !mod_rewrite.c>
+              ErrorDocument 404 index.php
+          </IfModule>
+          EOF
+
+      - name: Clean up files
+        run: |
+          rm -rf .git .github tests .gitignore
+          echo "✓ Cleanup completed"
+
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_DIR }}/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/tests/**
+            **/vendor/**
