@@ -39,6 +39,8 @@ endif;
     <div class="col-md-10">
         <div class="card h-100">
             <div class="card-body">
+
+
                 <!--START: TABS-LINKS -->
                 <ul class="nav nav-tabs" id="tabsRecipe">
                     <li class="nav-item">
@@ -49,16 +51,22 @@ endif;
                                     id="badge-image"
                                     class="badge rounded-pill text-bg-primary"><?= (isset($recipe['images'])) ? count($recipe['images']) : '0'; ?></span></a>
                     </li>
+
+
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#ingredient-tab-pane">Ingrédients
                             <span id="badge-ingredient"
                                   class="badge rounded-pill text-bg-primary"><?= (isset($recipe['ingredients'])) ? count($recipe['ingredients']) : '0'; ?></span></a>
                     </li>
+
+
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#tag-tab-pane">Mots Clés <span
                                     id="badge-tag"
                                     class="badge rounded-pill text-bg-primary"><?= (isset($recipe['tags'])) ? count($recipe['tags']) : '0'; ?></span></a>
                     </li>
+
+
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#step-tab-pane">Étapes <span
                                     id="badge-step"
@@ -70,6 +78,8 @@ endif;
                                 <span id="badge-opinion"
                                       class="badge rounded-pill text-bg-primary"><?= (isset($recipe['opinions'])) ? count($recipe['opinions']) : '0'; ?></span></a>
                         </li>
+
+
                         <li class="nav-item">
                             <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#fav-tab-pane">Favoris
                                 <span id="badge-fav"
@@ -78,8 +88,15 @@ endif;
                     <?php endif; ?>
                 </ul>
                 <!--END: TABS-LINKS -->
+
+
+
+
                 <!--START: TABS-PANE -->
                 <div class="tab-content p-3 border border-1 border-top-0 rounded rounded-top-0" id="tabsRecipeContent">
+
+
+
                     <!--START: GENERAL -->
                     <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel">
                         <div class="mb-3">
@@ -88,6 +105,8 @@ endif;
                                 <?= $recipe['description'] ?? ''; ?>
                             </textarea>
                         </div>
+
+
                         <div>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" id="switchAlcool"
@@ -97,6 +116,8 @@ endif;
                         </div>
                     </div>
                     <!--END:GENERAL -->
+
+
                     <!--START: IMAGES -->
                     <div class="tab-pane fade" id="image-tab-pane" role="tabpanel">
                         <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3">
@@ -126,6 +147,10 @@ endif;
                         </div>
                     </div>
                     <!--END: IMAGES -->
+
+
+
+
                     <!--START: INGREDIENTS -->
                     <div class="tab-pane fade" id="ingredient-tab-pane" role="tabpanel">
                         <div class="mb-3">
@@ -170,6 +195,10 @@ endif;
                         </div>
                     </div>
                     <!--END: INGREDIENTS -->
+
+
+
+
                     <!--START: MOTS CLÉS -->
                     <div class="tab-pane fade" id="tag-tab-pane" role="tabpanel">
                         <div class="row">
@@ -200,6 +229,10 @@ endif;
                         </div>
                     </div>
                     <!--END: MOTS CLÉS -->
+
+
+
+
                     <!--START: ÉTAPES -->
                     <div class="tab-pane fade" id="step-tab-pane" role="tabpanel">
                         <div class="mb-3">
@@ -245,6 +278,10 @@ endif;
                             COMMENTAIRES
                         </div>
                         <!--END: COMMENTAIRES -->
+
+
+
+
                         <!--START: FAVORIS -->
                         <div class="tab-pane fade" id="fav-tab-pane" role="tabpanel">
                             FAVORIS
@@ -257,6 +294,9 @@ endif;
         </div>
     </div>
     <!--END: COLONNE PRINCIPALE -->
+
+
+
     <!--START: COLONNE ACTIONS -->
     <div class="col-md-2">
         <div class="card h-100">
@@ -311,21 +351,33 @@ endif;
                         <option value="<?= $id ?>" selected><?= $username ?></option>
                     </select>
                 </div>
+
+
                 <div class="mt-3">
+
                     <label for="mea" class="form-label">Image Principale</label>
+
                     <?php if (isset($recipe['mea']) && !empty($recipe['mea'])) : ?>
                         <div class="text-center mb-3 ">
                             <img class="img-thumbnail" src="<?= $recipe['mea']->getUrl(); ?>">
                         </div>
                     <?php endif; ?>
+
                     <input id="mea" type="file" name="mea" class="form-control">
                 </div>
+
+
             </div>
         </div>
     </div>
     <!--END: COLONNE ACTIONS -->
+
+
 </div>
 <?php echo form_close(); ?>
+
+
+
 <script>
     $(document).ready(function () {
         //Activation de TinyMCE

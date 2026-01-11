@@ -1,9 +1,11 @@
 <div class="row">
     <div class="col">
         <div class="position-relative">
-            <?php if(isset($recipe['mea']['file_path'])) : ?>
-                <img src="<?= base_url($recipe['mea']['file_path']); ?>" class="img-fluid recipe-img-mea">
-            <?php endif;?>
+            <?php if(isset($recipe['mea']) && $recipe['mea'] !== null) : ?>
+                <img src="<?= $recipe['mea']->getUrl(); ?>"
+                     class="img-fluid recipe-img-mea"
+                     alt="<?= $recipe['mea']->alt ?? esc($recipe['name']) ?>">
+            <?php endif; ?>
             <div class="position-absolute top-0 start-0 bg-black w-100 h-100 opacity-25"></div>
             <div class="position-absolute top-50 start-50 translate-middle text-white text-center">
                 <h1><?= isset($recipe['name']) ? $recipe['name'] : ''; ?></h1>
@@ -40,23 +42,6 @@
     </div>
 </div>
 <div class="row">
-
-
-
-
-
-
-
-    Expand Down
-
-
-
-
-
-    Expand Up
-
-    @@ -166,9 +173,12 @@
-
     <div class="col">
         <!-- TODO: Liste des tag dans des badges bootstrap cliquable (url /recettes?tag=nomdutag -->
     </div>
@@ -72,8 +57,10 @@
                     <ul class="splide__list">
                         <?php foreach($recipe['images'] as $image) : ?>
                             <li class="splide__slide">
-                                <a href="<?= base_url($image['file_path']); ?>" data-lightbox="mainslider">
-                                    <img class="img-fluid" src="<?= base_url($image['file_path']); ?>">
+                                <a href="<?= $image->getUrl(); ?>" data-lightbox="mainslider">
+                                    <img class="img-fluid"
+                                         src="<?= $image->getUrl(); ?>"
+                                         alt="<?= $image->alt ?? esc($recipe['name']) ?>">
                                 </a>
                             </li>
                         <?php endforeach; ?>
@@ -84,9 +71,9 @@
                 <div class="splide__track">
                     <ul class="splide__list">
                         <?php foreach($recipe['images'] as $image) : ?>
-                            <li class="splide__slide">
-                                <img class="img-thumbnail rounded" src="<?= base_url($image['file_path']); ?>">
-                            </li>
+                            <img class="img-thumbnail rounded"
+                                 src="<?= $image->getUrl(); ?>"
+                                 alt="<?= $image->alt ?? esc($recipe['name']) ?>">
                         <?php endforeach; ?>
                     </ul>
                 </div>

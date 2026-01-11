@@ -9,7 +9,7 @@
                 Découvrez, créez et partagez vos recettes préférées.<br>
                 Une plateforme conçue pour les passionnés de cuisine !
             </p>
-            <a href="<?= base_url('recettes') ?>" class="btn btn-primary btn-lg mt-3">
+            <a href="<?= base_url('recette') ?>" class="btn btn-primary btn-lg mt-3">
                 <i class="bi bi-book"></i> Voir les recettes
             </a>
         </div>

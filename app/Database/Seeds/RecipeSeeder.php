@@ -310,16 +310,16 @@ class RecipeSeeder extends Seeder
 
         // Médias pour les nouvelles recettes (optionnel)
         $media = [
-            ['file_path' => 'uploads/2025/09/recipe/1/bloody-mary-7295563-1920-jpg-1758290680.jpg', 'entity_id' => 1, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/2/39-cuba-libre-jpg-1758290837.jpg', 'entity_id' => 2, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/3/mojito-cocktail.jpg', 'entity_id' => 3, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/4/cosmopolitan-cocktail.jpg', 'entity_id' => 4, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/5/gin-tonic-cocktail.jpg', 'entity_id' => 5, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/6/pina-colada-cocktail.jpg', 'entity_id' => 6, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/7/margarita-cocktail.jpg', 'entity_id' => 7, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/8/whisky-sour-cocktail.jpg', 'entity_id' => 8, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/9/negroni-cocktail.jpg', 'entity_id' => 9, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
-            ['file_path' => 'uploads/2025/09/recipe/10/moscow-mule-cocktail.jpg', 'entity_id' => 10, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/bloody-mary.jpg', 'entity_id' => 1, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/cuba-libre.jpg', 'entity_id' => 2, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/mojito-cocktail.jpg', 'entity_id' => 3, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/cosmopolitan-cocktail.jpg', 'entity_id' => 4, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/gin-tonic-cocktail.jpg', 'entity_id' => 5, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/pina-colada-cocktail.jpg', 'entity_id' => 6, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/margarita-cocktail.jpg', 'entity_id' => 7, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/whisky-sour-cocktail.jpg', 'entity_id' => 8, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/negroni-cocktail.jpg', 'entity_id' => 9, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
+            ['file_path' => 'assets/img/recipes/moscow-mule-cocktail.jpg', 'entity_id' => 10, 'entity_type' => 'recipe_mea', 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s")],
         ];
         $this->db->table('media')->insertBatch($media);
 
