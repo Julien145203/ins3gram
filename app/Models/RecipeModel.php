@@ -21,28 +21,15 @@ class RecipeModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
-    protected $beforeInsert = ['setInsertValidationRules','validateAlcool'];
-    protected $beforeUpdate = ['setUpdateValidationRules','validateAlcool'];
+    protected $beforeInsert = ['validateAlcool'];
+    protected $beforeUpdate = ['validateAlcool'];
 
-    protected function setInsertValidationRules(array $data) {
-        $this->validationRules = [
-            'name'    => 'required|max_length[255]|is_unique[recipe.name]',
-            'alcool'  => 'permit_empty|in_list[0,1,on]',
-            'id_user' => 'permit_empty|integer',
-            'description' => 'permit_empty',
-        ];
-        return $data;
-    }
-    protected function setUpdateValidationRules(array $data) {
-        $id = $data['data']['id_recipe'] ?? null;
-        $this->validationRules = [
-            'name'    => "required|max_length[255]|is_unique[recipe.name,id,$id]",
-            'alcool'  => 'permit_empty|in_list[0,1,on]',
-            'id_user' => 'permit_empty|integer',
-            'description' => 'permit_empty',
-        ];
-        return $data;
-    }
+    protected $validationRules = [
+        'name'    => "required|max_length[255]|is_unique[recipe.name,id,{primaryKey}]",
+        'alcool'  => 'permit_empty|in_list[0,1,on]',
+        'id_user' => 'permit_empty|integer',
+        'description' => 'permit_empty',
+    ];
 
     protected $validationMessages = [
         'name' => [
@@ -64,6 +51,7 @@ class RecipeModel extends Model
      * @param $slug null Récupère depuis un slug (l'ID doit être à null sinon il est prioritaire)
      * @return array Tableau contenant toutes les informations de notre recette
      */
+
     public function getFullRecipe($id = null, $slug = null) {
         if($id != null) {
             $recipe = $this->withDeleted()->find($id);
@@ -94,9 +82,17 @@ class RecipeModel extends Model
         }
         $mediamodel = Model('MediaModel');
         //Récupération de l'image principale et stocker dans le tableau recipe
-        $recipe['mea'] = $mediamodel->where('entity_id', $id_recipe)->where('entity_type', 'recipe_mea')->first();
+        $recipe['mea'] = $mediamodel
+            ->where('entity_id', $id_recipe)
+            ->where('entity_type', 'recipe_mea')
+            ->first();
+
         //Récupération des images de la recette et stocker dans le tableau recipe
-        $recipe['images'] = $mediamodel->where('entity_id', $id_recipe)->where('entity_type', 'recipe')->findAll();
+        $recipe['images'] = $mediamodel
+            ->where('entity_id', $id_recipe)
+            ->where('entity_type', 'recipe')
+            ->findAll();
+
         //Récupération des étapes de la recette
         $steps = Model('StepModel')->where('id_recipe', $id_recipe)->orderBy('order', 'ASC')->findAll();
         $recipe['steps'] = $steps; //on ajoute à notre recette
@@ -110,6 +106,7 @@ class RecipeModel extends Model
         $this->join('media',' recipe.id = media.entity_id AND media.entity_type = \'recipe_mea\'','left');
         $this->join('opinion',' opinion.id_recipe = recipe.id','left');
         // Ajoutez cette ligne après les JOIN
+        $this->join('quantity', 'recipe.id = quantity.id_recipe','left');
         $this->applyFilters($filters);
         //$this->orderBy($this->getValidOrderField($orderBy), $orderDirection);
         $this->groupBy('recipe.id');
@@ -134,7 +131,6 @@ class RecipeModel extends Model
         }
         if (isset($filters['ingredients']) && !empty($filters['ingredients'])) {
             $ingredientIds = $filters['ingredients'];
-            $this->join('quantity', 'recipe.id = quantity.id_recipe');
             $this->whereIn('quantity.id_ingredient', $ingredientIds);
             $this->having('COUNT(DISTINCT quantity.id_ingredient) >=', count($ingredientIds));
         }
@@ -173,7 +169,18 @@ class RecipeModel extends Model
     }
 
     protected function validateAlcool(array $data) {
-        $data['data']['alcool'] = isset($data['data']['alcool']) ? 1 : 0;
+        // Si alcool n'existe pas, mettre 0
+        if (!isset($data['data']['alcool'])) {
+            $data['data']['alcool'] = 0;
+            return $data;
+        }
+
+        // Si alcool existe, normaliser la valeur
+        // "on" (checkbox) ou 1 → 1
+        // 0, "", false, null → 0
+        $value = $data['data']['alcool'];
+        $data['data']['alcool'] = ($value === 'on' || $value == 1) ? 1 : 0;
+
         return $data;
     }
 

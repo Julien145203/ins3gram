@@ -77,3 +77,73 @@ defined('EXIT_USER_INPUT')     || define('EXIT_USER_INPUT', 7);     // invalid u
 defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database error
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
+
+/*AJOUTER POUR LES TEST UNITAIRE */
+
+/*
+ | --------------------------------------------------------------------------
+ | File and Directory Modes
+ | --------------------------------------------------------------------------
+ | These prefs are used when checking and setting modes when working
+ | with the file system.  The defaults are fine on servers with proper
+ | security, but you may wish (or even need) to change the values in
+ | certain environments (Apache running a separate process for each
+ | user, PHP under CGI with Apache suEXEC, etc.).
+ |
+ | Octal values should always be used to set the mode correctly.
+ */
+defined('FILE_READ_MODE')  || define('FILE_READ_MODE', 0644);
+defined('FILE_WRITE_MODE') || define('FILE_WRITE_MODE', 0666);
+defined('DIR_READ_MODE')   || define('DIR_READ_MODE', 0755);
+defined('DIR_WRITE_MODE')  || define('DIR_WRITE_MODE', 0755);
+
+/**
+ * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_LOW instead.
+ */
+defined('EVENT_PRIORITY_LOW')    || define('EVENT_PRIORITY_LOW', 200);
+/**
+ * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_NORMAL instead.
+ */
+defined('EVENT_PRIORITY_NORMAL') || define('EVENT_PRIORITY_NORMAL', 100);
+/**
+ * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
+ */
+defined('EVENT_PRIORITY_HIGH')   || define('EVENT_PRIORITY_HIGH', 10);
+
+/*
+ | --------------------------------------------------------------------------
+ | System Path
+ | --------------------------------------------------------------------------
+ */
+defined('SYSTEMPATH') || define('SYSTEMPATH', realpath(ROOTPATH . 'vendor/codeigniter4/framework/system') . DIRECTORY_SEPARATOR);
+
+/*
+ | --------------------------------------------------------------------------
+ | Application Directory
+ | --------------------------------------------------------------------------
+ */
+defined('APPPATH') || define('APPPATH', realpath(ROOTPATH . 'app') . DIRECTORY_SEPARATOR);
+
+/*
+ | --------------------------------------------------------------------------
+ | Writable Directory
+ | --------------------------------------------------------------------------
+ */
+defined('WRITEPATH') || define('WRITEPATH', realpath(ROOTPATH . 'writable') . DIRECTORY_SEPARATOR);
+
+/*
+ | --------------------------------------------------------------------------
+ | Tests Directory (for phpunit)
+ | --------------------------------------------------------------------------
+ */
+defined('TESTPATH') || define('TESTPATH', realpath(ROOTPATH . 'tests') . DIRECTORY_SEPARATOR);
+
+/*
+ | --------------------------------------------------------------------------
+ | Tests Support Directory
+ | --------------------------------------------------------------------------
+ |
+ | The path to the "tests/_support" directory.
+ | Allows for running the test suite with the --no-configuration option.
+ */
+defined('SUPPORTPATH') || define('SUPPORTPATH', realpath(TESTPATH . '_support') . DIRECTORY_SEPARATOR);

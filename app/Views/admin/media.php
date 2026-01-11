@@ -30,6 +30,7 @@
         <div class="card" id="liste">
             <div class="card-body">
                 <div class="row row-cols-2 row-cols-md-6 g-3 mb-3" id="medias">
+                    <!-- Les médias seront chargés ici via AJAX -->
                 </div>
                 <div class="row">
                     <div class="col text-center">

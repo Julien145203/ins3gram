@@ -1,4 +1,6 @@
 <div class="row">
+
+
     <!-- Colonne gauche : formulaire d’ajout d’une nouvelle catégorie d’ingrédient -->
     <div class="col-md-3 ">
         <div class="card">
