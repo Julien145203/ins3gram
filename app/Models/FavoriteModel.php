@@ -41,4 +41,45 @@ class FavoriteModel extends Model
         }
         return false;
     }
+    public function getUserFavorites(int $userId): array
+    {
+        return $this
+            ->select('
+            recipe.id,
+            recipe.name,
+            recipe.slug,
+            recipe.description,
+            recipe.alcool,
+            recipe.created_at,
+            media.file_path as mea,
+            COALESCE(AVG(opinion.score), 0) as score
+        ')
+            ->join('recipe', 'favorite.id_recipe = recipe.id')
+            ->join(
+                'media',
+                "media.entity_id = recipe.id AND media.entity_type = 'recipe_mea'",
+                'left'
+            )
+            ->join('opinion', 'opinion.id_recipe = recipe.id', 'left')
+            ->where('favorite.id_user', $userId)
+            ->where('recipe.deleted_at', null)
+            ->groupBy([
+                'recipe.id',
+                'media.file_path'
+            ])
+            ->orderBy('recipe.name', 'ASC') // ou id, ou score
+            ->findAll();
+    }
+
+
+
+    /**
+     * Compte les favoris d’un utilisateur
+     */
+    public function countByUser(int $userId): int
+    {
+        return $this
+            ->where('id_user', $userId)
+            ->countAllResults();
+    }
 }

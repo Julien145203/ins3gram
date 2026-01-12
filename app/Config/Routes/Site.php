@@ -32,5 +32,12 @@ $routes->group('contactez-nous', function ($routes) {
     $routes->post('send', 'Contact::send');
 });
 
+// Routes favoris
+$routes->group('favoris', function ($routes) {
+    $routes->get('/', 'UserFavorites::index');
+    $routes->post('toggle', 'UserFavorites::toggle');
+    $routes->get('count', 'UserFavorites::count');
+});
+
 //dataTable
 $routes->post('/datatable/searchdatatable', 'DataTable::searchdatatable');

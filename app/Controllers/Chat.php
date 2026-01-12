@@ -10,19 +10,37 @@ class Chat extends BaseController
     public function index()
     {
         $this->title = "Chat";
-        $histo = Model('ChatModel')->getHistorique($this->session->get('user')->id);
+        $cm = Model('ChatModel');
+        $histo = $cm->getHistorique($this->session->get('user')->id);
         return $this->view('/front/chat', ['historique' => $histo], false);
     }
 
     public function send()
     {
-        $data = esc($this->request->getPost());
+        $data = $this->request->getPost();
+
+        // Validation basique
+        if (empty($data['content']) || empty($data['id_receiver'])) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Données manquantes'
+            ]);
+        }
+
         $cm = Model('ChatModel');
-        if($cm->insert($data)) {
+
+        // Échapper les données pour la sécurité
+        $insertData = [
+            'content' => esc($data['content']),
+            'id_sender' => $this->session->get('user')->id,
+            'id_receiver' => (int)$data['id_receiver']
+        ];
+
+        if($cm->insert($insertData)) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'message envoyé',
-                'data' => $data
+                'message' => 'Message envoyé',
+                'data' => $insertData
             ]);
         } else {
             return $this->response->setJSON([
@@ -32,24 +50,37 @@ class Chat extends BaseController
         }
     }
 
-    public function conversation() {
-        $data = $this->request->getGet();
+    public function conversation()
+    {
+        $id_1 = $this->request->getGet('id_1');
+        $id_2 = $this->request->getGet('id_2');
+        $page = $this->request->getGet('page') ?? 1;
+
         $cm = Model('ChatModel');
-        $conversation = $cm->getConversation($data['id_1'], $data['id_2'], $data['page']);
+        $conversation = $cm->getConversation($id_1, $id_2, $page);
+
         return $this->response->setJSON($conversation);
     }
 
-    public function newMessages() {
-        $data = $this->request->getGet();
+    public function newMessages()
+    {
+        $id_1 = $this->request->getGet('id_1');
+        $id_2 = $this->request->getGet('id_2');
+        $date = $this->request->getGet('date');
+
         $cm = Model('ChatModel');
-        $newMessages = $cm->getNewMessages($data['id_1'], $data['id_2'], $data['date']);
+        $newMessages = $cm->getNewMessages($id_1, $id_2, $date);
+
         return $this->response->setJSON($newMessages);
     }
 
-    public function historique() {
+    public function historique()
+    {
         $id = $this->request->getGet('id');
+
         $cm = Model('ChatModel');
         $histo = $cm->getHistorique($id);
+
         return $this->response->setJSON($histo);
     }
 }

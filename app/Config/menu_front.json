@@ -17,5 +17,17 @@
     "url": "/contactez-nous",
     "icon" : "<i class=\"nav-icon fas fa-envelope\"></i>",
     "class": ""
+  },
+  "messagerie": {
+    "title": "Messagerie",
+    "url": "/messagerie",
+    "icon" : "<i class=\"fa-solid fa-comment-dots\"></i>",
+    "class": ""
+  },
+  "favorites": {
+    "title": "favoris",
+    "url": "/favoris",
+    "icon" : "<i class=\"fa-solid fa-heart\"></i>",
+    "class": ""
   }
 }
