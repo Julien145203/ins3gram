@@ -153,14 +153,20 @@ class Recipe extends BaseController
         $data = $this->request->getPost();
         $id_recipe = $data['id_recipe'];
         $rm = Model('RecipeModel');
+
+        // **FIX: Définir l'ID avant validation pour que {id} soit remplacé**
+        $rm->setValidationRule('name', "required|max_length[255]|is_unique[recipe.name,id,{$id_recipe}]");
+
         if ($rm->update($id_recipe, $data)) {
             $this->success('Recette modifiée avec succès !');
+
             //Gestion activation / désactivation
             if (isset($data['active'])) {
                 $rm->reactive($id_recipe);
             } else {
                 $rm->delete($id_recipe);
             }
+
             //Gestion des mots clés
             $trm = Model('TagRecipeModel');
             if ($trm->where('id_recipe', $id_recipe)->delete()) {
