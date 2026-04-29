@@ -60,8 +60,7 @@ class Opinion extends Migration
         $this->forge->createTable('opinion');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('opinion');
+    public function down() {
+        if ($this->db->tableExists('opinion')) $this->forge->dropTable('opinion');
     }
 }

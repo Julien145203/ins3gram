@@ -55,8 +55,7 @@ class Media extends Migration
         $this->forge->createTable('media');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('media');
+    public function down() {
+        if ($this->db->tableExists('media')) $this->forge->dropTable('media');
     }
 }

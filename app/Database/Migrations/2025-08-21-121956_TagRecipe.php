@@ -27,8 +27,7 @@ class TagRecipe extends Migration
         $this->forge->createTable('tag_recipe');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('tag_recipe');
+    public function down() {
+        if ($this->db->tableExists('tag_recipe')) $this->forge->dropTable('tag_recipe');
     }
 }

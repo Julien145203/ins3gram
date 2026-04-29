@@ -27,8 +27,7 @@ class Brand extends Migration
         $this->forge->createTable('brand');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('brand');
+    public function down() {
+        if ($this->db->tableExists('brand')) $this->forge->dropTable('brand');
     }
 }

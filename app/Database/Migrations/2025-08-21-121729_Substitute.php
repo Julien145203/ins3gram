@@ -27,8 +27,7 @@ class Substitute extends Migration
         $this->forge->createTable('substitute');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('substitute');
+    public function down() {
+        if ($this->db->tableExists('substitute')) $this->forge->dropTable('substitute');
     }
 }

@@ -61,8 +61,8 @@ class Recipe extends Migration
         $this->forge->createTable('recipe');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('recipe');
+    public function down() {
+        if ($this->db->tableExists('recipe')) $this->forge->dropTable('recipe');
     }
+
 }

@@ -27,8 +27,7 @@ class Tag extends Migration
         $this->forge->createTable('tag');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('tag');
+    public function down() {
+        if ($this->db->tableExists('tag')) $this->forge->dropTable('tag');
     }
 }

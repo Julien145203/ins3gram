@@ -32,9 +32,7 @@ class UserPermission extends Migration
         $this->forge->createTable('user_permission');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('user_permission');
-
+    public function down() {
+        if ($this->db->tableExists('user_permission')) $this->forge->dropTable('user_permission');
     }
 }
