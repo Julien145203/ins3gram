@@ -202,7 +202,7 @@
         </div>
     </div>
 </div>
-
+<!--Ajouter un onglet pour les recettes favorites de l'utilisateur-->
 <script>
     $(document).ready(function() {
         var base_url = '<?= base_url() ?>';
