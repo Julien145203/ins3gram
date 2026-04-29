@@ -30,7 +30,7 @@ jobs:
         with:
           php-version: '8.1'
           extensions: intl, mbstring, mysql, pdo_mysql, xml
-          coverage: none
+          coverage: xdebug
       # Etape 3 : CACHE COMPOSER DEPENDENCIES
       - name: Cache Composer dependencies
         uses: actions/cache@v3
