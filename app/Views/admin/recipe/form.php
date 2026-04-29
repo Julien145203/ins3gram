@@ -284,7 +284,7 @@ endif;
 
                         <!--START: FAVORIS -->
                         <div class="tab-pane fade" id="fav-tab-pane" role="tabpanel">
-                            FAVORIS
+                            FAVORIS <!--Liste des utilisateur qui ont cette recette en favoirs-->
                         </div>
                         <!--END: FAVORIS -->
                     <?php endif; ?>

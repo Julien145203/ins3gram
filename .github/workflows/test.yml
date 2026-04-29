@@ -1,4 +1,3 @@
-#Etapes 0 : reprendre le cours ou gihub -> pr -> setting -> branch -> add rules -> 1case -> deco2eme -> require status - require branch puis save
 name: test.yml
 on:
   pull_request:
@@ -18,20 +17,28 @@ jobs:
         options: >-
           --health-cmd="mysqladmin ping --silent"
           --health-interval=5s
-          --health-timeout=2s
+          --health-timeout=3s
           --health-retries=3
     steps:
-      # Etape 1 : CHECKOUT CODE
+      # ─────────────────────────────────────────
+      # 1 CHECKOUT CODE
+      # ─────────────────────────────────────────
       - name: Checkout code
         uses: actions/checkout@v3
-      # Etape 2 : CONFIGURER PHP
-      - name: Setup PHP 8.1
+
+      # ─────────────────────────────────────────
+      # 2 SETUP PHP
+      # ─────────────────────────────────────────
+      - name: Setup PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
-          extensions: intl, mbstring, mysql, pdo_mysql, xml
+          php-version: '8.2'
+          extensions: intl, mbstring, mysqli, pdo_mysql, xml
           coverage: none
-      # Etape 3 : CACHE COMPOSER DEPENDENCIES
+
+      # ─────────────────────────────────────────
+      # 3 CACHE COMPOSER DEPENDENCIES
+      # ─────────────────────────────────────────
       - name: Cache Composer dependencies
         uses: actions/cache@v3
         with:
@@ -40,10 +47,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      # Etapes 4 : INSTALLER DEPENDENCIES
+      # ─────────────────────────────────────────
+      # 4 INSTALLER DÉPENDANCES
+      # ─────────────────────────────────────────
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no progress --no interaction
-      # Etapes 5 : ATTENDRE MYSQL
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      # ─────────────────────────────────────────
+      # 5 ATTENDRE QUE MYSQL SOIT PRÊT
+      # ─────────────────────────────────────────
       - name: Wait for MySQL
         run: |
           while ! mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do
@@ -51,6 +63,8 @@ jobs:
             sleep 1
           done
           echo "MySQL is ready!"
-      # Etapes 6: EXECUTE LES TESTS
+      # ─────────────────────────────────────────
+      # 6 LANCER LES TESTS
+      # ─────────────────────────────────────────
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --colors=always

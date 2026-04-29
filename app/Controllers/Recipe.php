@@ -17,7 +17,7 @@ class Recipe extends BaseController
             'search' => $this->request->getGet('search'),
             'sort' => $this->request->getGet('sort'),
             'ingredients' => $this->request->getGet('ingredients')
-            // TODO : autres filtres
+            // TODO : autre s filtres
         ];
         if (!empty($filters['ingredients'])) $filters['ingredients'] = array_unique($filters['ingredients']);
         // Paramètres de tri et pagination
