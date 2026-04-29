@@ -45,6 +45,6 @@
     "test:feature": "phpunit tests/feature/",
     "test:coverage": "phpunit --coverage-html build/coverage",
     "test:filter": "phpunit --filter"
-  },
+  }
 
 }
