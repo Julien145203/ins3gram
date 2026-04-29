@@ -39,8 +39,7 @@ class Quantity extends Migration
         $this->forge->createTable('quantity');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('quantity');
+    public function down() {
+        if ($this->db->tableExists('quantity')) $this->forge->dropTable('quantity');
     }
 }

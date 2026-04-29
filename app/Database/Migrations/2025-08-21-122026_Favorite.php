@@ -27,8 +27,7 @@ class Favorite extends Migration
         $this->forge->createTable('favorite');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('favorite');
+    public function down() {
+        if ($this->db->tableExists('favorite')) $this->forge->dropTable('favorite');
     }
 }

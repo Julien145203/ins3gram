@@ -34,8 +34,7 @@ class CategIng extends Migration
         $this->forge->createTable('categ_ing');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('categ_ing');
+    public function down() {
+        if ($this->db->tableExists('categ_ing')) $this->forge->dropTable('categ_ing');
     }
 }

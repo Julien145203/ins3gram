@@ -28,8 +28,7 @@ class Option extends Migration
         $this->forge->createTable('option');
     }
 
-    public function down()
-    {
-       $this->forge->dropTable('option');
+    public function down() {
+        if ($this->db->tableExists('option')) $this->forge->dropTable('option');
     }
 }

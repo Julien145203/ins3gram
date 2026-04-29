@@ -43,8 +43,7 @@ class Ingredient extends Migration
         $this->forge->createTable('ingredient');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('ingredient');
+    public function down() {
+        if ($this->db->tableExists('ingredient')) $this->forge->dropTable('ingredient');
     }
 }

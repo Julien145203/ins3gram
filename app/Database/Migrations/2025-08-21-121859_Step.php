@@ -37,8 +37,8 @@ class Step extends Migration
 
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('step');
+    public function down() {
+        if ($this->db->tableExists('step')) $this->forge->dropTable('step');
     }
+
 }

@@ -51,8 +51,7 @@ class Chat extends Migration
         $this->forge->createTable('chat');
     }
 
-    public function down()
-    {
-        $this->forge->dropTable('chat');
+    public function down() {
+        if ($this->db->tableExists('chat')) $this->forge->dropTable('chat');
     }
 }
